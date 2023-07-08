@@ -73,7 +73,7 @@ tr,
 td,
 th {
   line-height: 180%;
-  letter-spacing: -0.75px;
+  /* letter-spacing: -0.75px; */
 }
 
 p,
@@ -129,11 +129,11 @@ a:focus {
 }
 
 .prose h2 {
-  font-size: 1.8em;
+  font-size: 1.7em;
 }
 
 .prose h3 {
-  font-size: 1.5em;
+  font-size: 1.3em;
 }
 
 .prose a {
@@ -449,5 +449,5 @@ code[data-line-numbers] .line::before {
 /* latex */
 
 .katex-html {
-  display: none;
+  /* display: none; */
 }
