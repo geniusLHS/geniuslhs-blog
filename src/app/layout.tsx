@@ -26,6 +26,8 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <meta property="og:title" content="geniusLHS" />
         <meta property="og:description" content="My Projects, Blog, Activities" />
         <meta property="og:image" content="https://github.com/geniusLHS/geniuslhs-blog/blob/main/public/image/geniuslhs-og.png?raw=true" />
+        <meta property="og:image:width" content="1409" />
+        <meta property="og:image:height" content="578" />
       </head>
       <body>
         <div className="py-8 sm:py-12 font-sans px-4 bg-[#fdfdfd] min-h-screen">
