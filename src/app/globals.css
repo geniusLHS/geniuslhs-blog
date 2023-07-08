@@ -334,7 +334,7 @@ body {
   --code-block-padding: 20px;
 }
 
-.pre-wrapper {
+/* .pre-wrapper {
   position: relative;
 }
 
@@ -345,7 +345,7 @@ body {
 
 .pre-wrapper > button {
   opacity: 0;
-}
+} */
 
 .copy-btn {
   position: absolute;
@@ -356,12 +356,17 @@ body {
 .prose pre {
   font-size: 14px;
   line-height: 100%;
-  padding-top: 60px;
+  padding-top: 30px;
   padding-bottom: 30px;
   background: #2b2b2b;
   border-radius: 10px;
-  margin: 15px 0px;
+  /* margin: 15px 0px; */
   overflow-x: auto;
+}
+
+.prose div[data-rehype-pretty-code-title] + pre {
+  border-top-left-radius: 0;
+  border-top-right-radius: 0;
 }
 
 div[data-rehype-pretty-code-title],
@@ -373,8 +378,8 @@ div[data-rehype-pretty-code-title],
   z-index: 0;
   border-top-left-radius: 10px;
   border-top-right-radius: 10px;
-  font-size: 14px;
-  position: absolute;
+  font-size: 15px;
+  /* position: absolute; */
   left: 0;
   line-height: 150%;
   -ms-user-select: none;

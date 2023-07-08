@@ -16,7 +16,7 @@ const PostItem = (post: Post) => {
         <div className="font-light break-words text-lg md:text-base">{post.description}</div>
         <div className="text-sm mt-1 text-slate-500">{dayjs(post.date).format('YYYY. MM. DD')}</div>
       </div>
-      <Image src={post.thumbnailUrl} className="rounded-lg mx-3" alt="thumbnail" width={80} height={80} objectFit="cover" />
+      <Image src={post.thumbnailUrl} className="rounded-lg mx-3" alt="thumbnail" width={80} height={80} />
     </Link>
   );
 };

@@ -3,7 +3,7 @@ title: 김홍종 미적분학 1 탐구문제 풀이집 제작기
 date: 2023-07-01
 category: Blog
 description: 풀이집 구성과 흥미로웠던 문제 소개
-thumbnailUrl: /posts/logo.png
+thumbnailUrl: /posts/khj-calculus-1-advanced-problems/thumbnail.png
 ---
 
 ## 개요
@@ -180,7 +180,7 @@ $$
 
 이 곱해져야 합니다. 따라서 우리의 목표는 행렬 $R_x, R_{-x}, R_y, R_{-y}$들의 곱으로 $R$을 표현하는 것입니다. 단, $R_x$의 개수에서 $R_{-x}$의 개수를 빼면 $2$가 나와야 하고, $R_y$의 개수와 $R_{-y}$의 개수는 같아야 합니다. 그래야 최종적으로 위치 $(2,0)$에 주사위가 멈출 수 있습니다. 여기서부터는 `sagemath`를 사용해 재귀호출로 해가 존재하는지 찾아보았습니다.
 
-```python title="find_matrix.sage"
+```python
 R_x = Matrix([[0,-1,0],[1,0,0],[0,0,1]])
 R_invx = Matrix([[0,1,0],[-1,0,0],[0,0,1]])
 R_y = Matrix([[0,0,1],[0,1,0],[-1,0,0]])
