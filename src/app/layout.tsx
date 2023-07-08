@@ -20,6 +20,12 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
           integrity="sha384-Xi8rHCmBmhbuyyhbI88391ZKP2dmfnOl4rT9ZfRI7mLTdk1wblIUnrIq35nqwEvC"
           crossOrigin="anonymous"
         />
+        <meta property="og:url" content="https://geniuslhs.com" />
+        <meta property="og:type" content="website" />
+        <meta property="og:site_name" content="geniusLHS" />
+        <meta property="og:title" content="geniusLHS" />
+        <meta property="og:description" content="My Projects, Blog, Activities" />
+        <meta property="og:image" content="" />
       </head>
       <body>
         <div className="py-8 sm:py-12 font-sans px-4 bg-[#fdfdfd] min-h-screen">
