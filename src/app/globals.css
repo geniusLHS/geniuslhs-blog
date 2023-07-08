@@ -448,6 +448,9 @@ code[data-line-numbers] .line::before {
 
 /* latex */
 
-.katex-html {
+.math-display {
+  overflow-x: auto !important;
+  overflow-y: hidden;
+  -webkit-overflow-scrolling: auto;
   /* display: none; */
 }
