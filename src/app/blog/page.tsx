@@ -26,7 +26,7 @@ export default function Post() {
         />
       </Head>
       <SubHeader title={phrases.Blog.title} description={phrases.Blog.description}></SubHeader>
-      <div className="pt-10 space-y-8">
+      <div className="pt-10 space-y-5">
         {posts.map((item) => (
           <PostItem {...item}></PostItem>
         ))}

@@ -1,0 +1,47 @@
+---
+title: contentlayer로 나만의 블로그 만들기
+date: 2023-07-09
+category: Blog
+description: Next.js와 contentlayer로 블로그를 만들었다
+thumbnailUrl: /posts/khj-calculus-1-advanced-problems/thumbnail.png
+---
+
+## 개요
+
+저는 예전부터 `네이버 블로그`나 `티스토리`를 사용하는 것이 아닌 저만의 블로그를 만들고 싶었습니다. 외부 서비스를 이용할 경우 디자인을 바꾸는 것도 제한적이고 이미지 삽입 등도 불편한데 반해, 직접 블로그를 만든다면 디자인을 완전히 내 마음대로 수정할 수 있으며 `markdown` 파일을 통해 글들을 관리하기도 쉽기 때문입니다.
+예전에 `Gatsby`로 블로그 만들기에 도전했었지만 `GraphQL`이 불편하여 중단되었고, `Nextra`로 재도전을 해봤는데 관련 문서가 적어 포기했었습니다. 그러다 이번에 웹서핑을 하던 도중 `Contentlayer`라는 새로운 도구를 알게되어 다시 도전해보게 되었습니다.
+
+## Contentlayer
+
+![contentlayer 구조](/posts/blog-with-contentlayer/contentlayer-구조.png)
+
+contentlayer는 위 그림과 같은 구조로 작동합니다. 블로그 운영자가 작성한 글들을 데이터로 변환하는데, 이는 코드에서 `import`하기 쉬운 형태라고 합니다. 따라서 개발자는 작성한 글을 불러오기 위해 `fs` 모듈 등을 사용해 복잡하게 코딩할 필요가 없이 아래와 같은 간단한 코딩만으로 데이터를 다룰 수 있습니다.
+
+```javascript
+import { allPosts } from 'contentlayer/generated';
+
+export default function Home() {
+  return (
+    <div>
+      <h1>All posts</h1>
+      <ul>
+        {allPosts.map((post) => (
+          <li key={post.url}>
+            <a href={post.url}>{post.title}</a>
+          </li>
+        ))}
+      </ul>
+    </div>
+  );
+}
+```
+
+### 버전 이슈
+
+![깃허브 이슈](/posts/blog-with-contentlayer/빌드가-안되는-이슈.png)
+
+처음 [Docs](https://www.contentlayer.dev/docs/getting-started-cddd76b7)를 보면서 개발을 시작했을 때 빌드가 정상적으로 되지 않는 이슈가 있었습니다. Docs를 정확히 똑같이 따라했는데도 문제가 생기고, Gitub Issues에도 관련 글이 없어 몇시간동안 방황했었던 것 같습니다. 신기하게도 잠시 쉬다가 다시 Github Issues에 들어갔는데 그 사이에 새로운 글이 올라왔습니다.
+
+![깃허브 이슈](/posts/깃허브-이슈.png)
+
+해당 글의 댓글에서
