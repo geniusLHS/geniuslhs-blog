@@ -40,8 +40,32 @@ export default function Home() {
 
 ![깃허브 이슈](/posts/blog-with-contentlayer/빌드가-안되는-이슈.png)
 
-처음 [Docs](https://www.contentlayer.dev/docs/getting-started-cddd76b7)를 보면서 개발을 시작했을 때 빌드가 정상적으로 되지 않는 이슈가 있었습니다. Docs를 정확히 똑같이 따라했는데도 문제가 생기고, Gitub Issues에도 관련 글이 없어 몇시간동안 방황했었던 것 같습니다. 신기하게도 잠시 쉬다가 다시 Github Issues에 들어갔는데 그 사이에 새로운 글이 올라왔습니다.
+처음 [Docs](https://www.contentlayer.dev/docs/getting-started-cddd76b7)를 보면서 개발을 시작했을 때 빌드가 정상적으로 되지 않는 이슈가 있었습니다. Docs를 정확히 똑같이 따라했는데도 문제가 생기고, Gitub Issues에도 관련 글이 없어 몇시간동안 방황했었습니다. 신기하게도 잠시 쉬다가 다시 Github Issues에 들어갔는데 그 사이에 새로운 글이 올라왔습니다.
 
-![깃허브 이슈](/posts/깃허브-이슈.png)
+![깃허브 이슈](/posts/blog-with-contentlayer/깃허브-이슈.png)
 
-해당 글의 댓글에서
+글의 내용은 정확히 저와 똑같은 에러를 담고 있었습니다. 해당 글의 댓글에서 `Contentlayer`의 버전을 0.3.1로 낮추면 잘 작동한다고 해결 방법을 알려주었습니다. 저 역시도 버전을 낮추었더니 문제가 해결되었습니다. 이를 보면서 앞으로는 문제가 생겼을 때 검색만 하는 것이 아니라 Github Issues에 글도 올려보는 개발자가 되고 싶다고 생각했습니다.
+
+### Next.js 13 이슈
+
+제가 작년에 `React`를 배운 이후로 `Next.js`도 꼭 배워야겠다고 다짐을 했었습니다. 그러나 Next.js 13이 나온지 얼마 되지 않아 관련 자료나 강의가 적어 조금 미뤄둔 상태입니다. Next.js 13 Docs를 한번 훑어본 적이 있기 때문에 대충 어떻게 작동하는지는 알지만 정확한 작동 방식은 모르고 있습니다. 다행히도 해당 프로젝트에서 Next.js에 대한 자세한 개념은 필요로 하지 않기 때문에 모르는게 있을때마다 Docs를 찾아가며 개발하였습니다.
+
+### 다른 블로그의 소스코드 참고
+
+사실 블로그를 완성하는데 가장 큰 도움을 받은 것은 다른 분들이 만드신 블로그의 소스코드였습니다. 에러가 나거나 모르는게 있을 때 대부분은 소스코드를 읽고 해결할 수 있었습니다. 또한 파일 구조, utils, 디자인 등 다양한 부분을 참고하기도 하였습니다. 그러다 보니 제 소스코드에서 제가 직접 입력한 코드는 전체의 30%도 안되는 것 같습니다.
+
+아래는 제가 참고한 블로그들입니다.
+
+- [Bepyan](https://bepyan.github.io/)
+- [Tripkmin](https://blog-tripkmin.vercel.app/)
+- [Miryang](https://miryang.dev/)
+
+### Vercel 사용
+
+이렇게 만든 Next.js 앱을 Deploy 하기 위해 처음으로 `Vercel`을 사용해보았습니다. github에 push를 하면 자동으로 인식하고, Promote to Production 버튼을 누르기만 하면 몇분만에 실제 빌드까지 해주는 것이 굉장히 간편했습니다. 앞으로는 Next.js 뿐만 아니라 React 앱을 업로드 할 때도 Vercel을 사용할 것 같습니다.
+
+![Vercel을 통한 관리](/posts/blog-with-contentlayer/Vercel을-통한-관리.png)
+
+## 소감
+
+아직 Next.js 13을 다루기에는 제 실력이 부족하다고 생각됩니다. 또한 블로그가 돌아가기 위한 최소한의 코드만 작성하였기 때문에 SEO, Google Analytics 적용 등도 전혀 되어있지 않습니다. 언젠가 React, Next.js를 다루는 제 실력이 더 발전한다면 그 때 다시 (더 완벽한) 블로그 만들기에 도전해보겠습니다.
