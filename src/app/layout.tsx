@@ -1,13 +1,14 @@
-import './globals.css';
-import Header from '@/components/Header';
-import Footer from '@/components/Footer';
-import type { Metadata } from 'next';
-import { Inter } from 'next/font/google';
-import { Html, Head, Main, NextScript } from 'next/document';
+import "./globals.css";
+import Header from "@/components/Header";
+import Footer from "@/components/Footer";
+import type { Metadata } from "next";
+import { Inter } from "next/font/google";
+import { Html, Head, Main, NextScript } from "next/document";
+import { Analytics } from "@vercel/analytics/react";
 
 export const metadata: Metadata = {
-  title: 'geniusLHS',
-  description: 'Dev blog of geniusLHS',
+  title: "geniusLHS",
+  description: "Dev blog of geniusLHS",
 };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
@@ -32,6 +33,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
           <div className="max-w-3xl mx-auto w-full">
             <Header />
             <main>{children}</main>
+            <Analytics />
             <Footer />
           </div>
         </div>
