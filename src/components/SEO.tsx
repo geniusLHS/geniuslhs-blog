@@ -55,24 +55,12 @@ export const PageSEO = (props: { title?: string; description?: string; url?: str
 /**
  * use in Article Page SEO
  */
-export const BlogSEO = ({
-  summary,
-  tags,
-  images,
-  ...props
-}: {
-  title: string;
-  summary: string;
-  date: string;
-  url: string;
-  tags?: string[];
-  images?: string[];
-}) => {
-  const title = props.title;
-  const url = "https://geniuslhs.com";
+export const BlogSEO = ({ title, summary, date, url }: { title: string; summary: string; date: string; url: string }) => {
+  //   const title = title;
+  //   const url = "https://geniuslhs.com";
   const imageList = ["https://github.com/geniusLHS/geniuslhs-blog/blob/main/public/image/geniuslhs-og.png?raw=true"];
   //   const url = getRelativeUrl(props.url);
-  const dateTime = new Date(props.date).toISOString();
+  const dateTime = new Date(date).toISOString();
   //   const imageList = images.length ? images.map(getImageUrl) : [DEFAULT_IMAGE];
 
   return (
@@ -86,8 +74,7 @@ export const BlogSEO = ({
           article: {
             publishedTime: dateTime,
             modifiedTime: dateTime,
-            authors: [`https://github.com/bepyan`],
-            tags,
+            authors: [`https://github.com/geniuslhs`],
           },
           url,
           title,
@@ -95,11 +82,11 @@ export const BlogSEO = ({
           images: imageList.map((img) => ({ url: img })),
         }}
         twitter={{
-          site: "@__bepyan",
+          site: "geniuslhs.com",
           cardType: "summary_large_image",
         }}
       />
-      <ArticleJsonLd
+      {/* <ArticleJsonLd
         datePublished={dateTime}
         dateModified={dateTime}
         images={imageList}
@@ -109,7 +96,7 @@ export const BlogSEO = ({
         authorName={"geniusLHS"}
         publisherName={"geniusLHS"}
         publisherLogo={"https://github.com/geniusLHS/geniuslhs-blog/blob/main/public/image/geniuslhs-og.png?raw=true"}
-      />
+      /> */}
     </>
   );
 };
