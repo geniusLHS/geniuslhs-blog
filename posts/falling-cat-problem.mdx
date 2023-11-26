@@ -1,0 +1,86 @@
+---
+title: 떨어지는 고양이 문제
+date: 2023-11-26
+category: Blog
+description: 고양이는 어떻게 공중에서 180도 회전을 할까?
+thumbnailUrl: /posts/falling-cat-problem/thumbnail.png
+---
+
+## 개요
+
+고양이를 위아래로 뒤집어 공중에서 놓습니다. 그러면 고양이는 공중에서 몸을 180도 회전하여 다리로 착지합니다. 이러한 현상은 현실에서 쉽게 관찰 할 수 있지만, 이 현상을 물리적으로 해석하는 것은 어렵습니다. 각운동량 보존 법칙에 의하면 몸의 일부분을 돌렸을 때 다른 부분은 반대 방향으로 돌아가야하므로 결과적으로는 몸 전체를 회전시킬 수 없기 때문입니다. 고양이가 어떻게 공중에서 몸을 뒤집는지 알아내기 위한 문제가 바로 떨어지는 고양이 문제입니다.
+
+해당 글에서는 떨어지는 고양이 문제의 두 가지 해석을 살펴보고, 어떤 해석이 더욱 적절한지 비교해볼 예정입니다. 고전 물리에 대한 기본적인 지식이 있다고 가정하고 글을 작성하였기에, 만약 각운동량 보존 법칙과 같은 물리 법칙을 잘 알고 있지 않다면 해당 문제에 대한 훌륭한 개요를 제공하는 영상 [_고양이가 물리학을 파괴했나요?_](https://www.youtube.com/shorts/d_Svw9SQEvU)를 보고 오시는 것을 추천합니다.
+
+## 본론
+
+### 1. 쥘 마레의 해석
+
+![쥘 마레의 고양이 사진](/posts/falling-cat-problem/쥘마레-고양이-사진.jpg)
+
+1882년 프랑스의 과학자 쥘 마레(Étienne-Jules Marey)는 1초에 12번의 사진을 찍을 수 있는 사진 총(chronophotographic gun)을 사용해 떨어지는 고양이를 촬영합니다. 실험에서 고양이는 공중에서 네 발로 들린 뒤 놓아져 땅으로 떨어졌습니다. 따라서 처음에 떨어질 때 초기 각속도를 가지고 있지 않았다는 것도 증명할 수 있었습니다. 1894년 그의 발견은 위의 사진과 함께 Nature에 실렸습니다.
+
+쥘 마레의 설명을 요약하면 아래와 같습니다.
+
+> 고양이는 관성 모멘트를 의도적으로 변화시켜 공중에서 몸을 회전한다.
+>
+> 1. 우선 고양이는 앞다리를 몸쪽으로 당기고 뒷다리를 쭉 편다. 그러면 상체보다 하체의 관성 모멘트가 커지게 된다. 이 때 상체를 회전시켜 앞다리가 아래로 가도록 한다. 각운동량 보존에 의해 상체는 많이 회전하지만 하체는 조금만 회전한다.
+> 2. 다음으로 앞다리를 쭉 펴고 뒷다리를 몸쪽으로 당긴다. 이번에는 반대로 하체보다 상체의 관성 모멘트가 커진다. 이 상태에서 하체를 회전시켜 뒷다리가 아래로 가도록 한다. 각운동량 보존에 의해 하체는 많이 회전하지만 상체는 조금만 회전한다.
+> 3. 이제 앞다리와 뒷다리 모두 아래 쪽에 있으므로, 다리로 착지할 수 있다.
+
+### 2. 라데마커의 해석
+
+1935년 네덜란드의 생리학자 G.G.J. Rademaker 와 J.W.G. Ter Braak은 다른 해석을 제시합니다. 떨어지는 고양이 사진에서 볼 수 있는 '굽어진 허리'가 중요하다는 아이디어입니다. 그들은 고양이가 허리를 굽혀 상체와 하체를 회전하는 경우를 생각했습니다. 그러면 각운동량 보존을 유지하면서도 공중에서 몸을 뒤집을 수 있다는 것입니다.
+
+![라데마커의 해석](/posts/falling-cat-problem/라데마커의-해석.gif)
+
+1969년, 스탠포드 대학교의 엔지니어 케인(Thomas R. Kane)은 이 이론을 검증하기 위해 고양이의 상체와 하체를 각각 하나의 실린더로 생각해 모델링 했으며 고양이의 움직임을 예측할 수 있는 미분 방정식을 작성하였습니다. 컴퓨터를 사용한 수치 계산 결과 이 원리를 검증할 수 있었습니다.
+
+### 3. 핵심 원리는 무엇인가?
+
+이렇게 떨어지는 고양이 문제에 대한 두 가지의 해석을 살펴보았습니다. 그렇다면 어떤 해석이 더욱 이 현상을 잘 설명한다고 할 수 있을까요? 《떨어지는 고양이와 기본 물리학(Falling Felines and Fundamental Physics)》의 저자인 물리학자 Greg Gbur의 [인터뷰 내용](https://arstechnica.com/science/2019/12/the-surprisingly-complicated-physics-of-why-cats-always-land-on-their-feet/)을 살펴봅시다.
+
+> **Ars**: You summarize four distinct hypotheses offered at various times to explain the phenomenon of cat turning. So what is the best explanation we have so far for how a cat can turn and fall and land on its feet?
+> **Gbur**: This is part of why it was such a challenge: all these different motions play a role. ... **But the most important is a bend and twist motion.** The cat bends at the waist and counter rotates the upper and lower halves of its body in order to cancel those motions out. When one goes through the math, that seems to be the most fundamental aspect of how a cat turns over. But there are all these little corrections on top of that: using the tail, or using the paws for additional leverage, also play a role. So the fundamental explanation comes down to essentially bend and twist, but then there's all these extra little corrections to it.
+
+> **Ars**: After all these studies, do we now know know exactly what's going on with a falling cat, or is this still an area of active research?
+> **Gbur**: ... If you watch videos of falling cats, you will see that a lot of them use their tails to turn over. But we also know that cats without tails can turn over just fine. **So from a physics point of view, the problem has reached a level where the details depend on the specific cat.** People will still argue about it. I think a lot of physicists don't realize how complicated the problem is, and they're often just looking for a single simple solution. Physicists have an instinct to look for simple solutions, but nature's always looking for the most effective solution. And those two approaches are not always the same. ...
+
+위의 두 답변을 요약하면 다음과 같습니다.
+
+> 1. 가장 중요한 동작은 척추를 굽혀서 회전하는 것(라데마커의 해석)이다. 수학적으로 계산해보면 이것이 고양이의 움직임을 설명하는 가장 기본적인 원리라고 보여진다. 그러나 꼬리를 사용하는 것이나 발로 지렛대 역할을 하는 것(쥘 마레의 해석) 또한 고양이의 회전에 관여한다.
+> 2. 이제 이 문제는 상세한 해석이 특정 고양이에 따라 달라지는 수준에 도달했다.
+
+### 4. 유튜버 이과형의 영상
+
+저는 해당 문제에 관심을 가지면서 다양한 유튜브 영상들을 찾아봤습니다. 영상 [_왜 고양이는 항상 네 발로 착지할까??_](https://www.youtube.com/shorts/u4uOggMRCSU)에서는 떨어지는 고양이 문제에 대해 다루고는 있지만 다소 부정확한 설명이 나와있습니다. 따라서 댓글에서 원리를 설명하는 사람들을 쉽게 볼 수 있었는데, 대부분이 쥘 마레의 해석을 '핵심 원리'라고 주장하고 있었습니다.
+
+![유튜브 댓글](/posts/falling-cat-problem/유튜브-댓글.png)
+
+이렇게 잘못된 사실이 퍼진 이유는 유튜버 이과형의 영상 [_고양이가 물리학을 파괴했나요?_](https://www.youtube.com/shorts/d_Svw9SQEvU)가 가장 큰 영향을 미쳤다고 생각했습니다. 첫 번째로, 해당 영상은 570만회에 달하는 조회수를 가지고 있으며 떨어지는 고양이 문제를 다루는 한국 영상은 이 외에 거의 존재하지 않습니다. 두 번째로, 원리를 설명하는 댓글에서 이과형의 영상을 시청하라고 추천하고 있으며, 직접적인 언급이 없더라도 해당 영상에 나오는 예시인 피겨스케이팅 선수를 통한 설명이 나옵니다.
+
+물론 이러한 교양 과학 영상을 통해 많은 대중들에게 물리학 지식을 전달하고, 실생활에서의 예시를 제공하는 것은 굉장히 긍정적으로 생각합니다. 또한 제가 이 글 맨 처음에서 해당 영상을 제시했던 것처럼 이 문제를 처음 보는 사람에게는 훌륭한 개요를 제공해줍니다. 그럼에도 불구하고, 사람들이 마치 쥘 마레의 해석이 '핵심 원리'라고 생각하게끔 만든 것은 다소 문제가 있다고 생각합니다. 이것은 대중에게 잘못된 정보를 퍼뜨린 것이나 다름 없기 때문입니다. 영상에서 쥘 마레의 원리보다 더욱 중요한 원리가 있다고 말하거나, 라데마커의 해석을 간단하게 설명하는 내용이 들어가 있었다면 더 좋지 않았을까 생각합니다.
+
+## 여담
+
+저는 글을 쓰면서 가장 중요하게 생각한 것이 '라데마커의 해석이 핵심 원리이다'라는 주장을 뒷받침하는 근거를 찾는 것이었습니다. 본문의 3, 4 단락은 해당 주장이 중요하게 사용되기 때문입니다. 저는 한 물리학자 작가의 인터뷰를 찾아서 본문에 적었지만, 이외에도 정말 다양한 자료들을 찾아보았습니다. 다양한 자료들을 읽다 보니 역사적 사실에 대해 글마다 조금씩 차이점이 있었습니다. 해당 부분들과 약간의 보충 설명을 아래에 소개합니다.
+
+- 글 [〈The Development of Explanation of Falling Cat Problem and Applications of Falling Cat Phenomenon〉](https://www.atlantis-press.com/article/125967316.pdf)에서는 떨어지는 고양이 문제의 해석을 크게 두 가지로 정리하고, 각각을 SIMPLE EXPLANATION와 KANE'S EXPLANATION으로 지칭합니다. 글 안에서는 라데마커에 대한 어떤 언급도 나오지 않습니다.
+  반면 글 [《Scientists just can't stop studying falling cats》](https://fortworthbusiness.com/technology/scientists-just-cant-stop-studying-falling-cats/)에서는 "bend-and-twist" 전략을 처음으로 제시한 사람은 1935년의 네덜란드의 생리학자 G.G.J. Rademaker 와 J.W.G. Ter Braak이며, Kane은 해당 원리를 수학적 모델링을 통해 증명했다고 나와있습니다.
+  라데마커의 아이디어를 확실하게 검증한 것은 케인이기에, 어떻게 보면 떨어지는 고양이 문제를 처음으로 해결했다고도 볼 수 있을 것 같습니다. 실제로 위키피디아의 ["Falling cat problem"](https://en.wikipedia.org/wiki/Falling_cat_problem#cite_ref-FOOTNOTEKaneScher1969_8-0) 문서에서는 이 문제가 1969년에 처음으로 해결되었다고 설명하면서 케인의 논문을 인용하고 있습니다.
+
+- 글 [〈The Development of Explanation of Falling Cat Problem and Applications of Falling Cat Phenomenon〉](https://www.atlantis-press.com/article/125967316.pdf)에서는 NASA가 케인의 연구에 관심을 보였으며, 이를 바탕으로 우주비행사들이 공중에서 회전할 수 있도록 하는 연구를 도왔다고 합니다. 또한 현재에 이르러서는 공중에서 도는 것은 우주비행사들의 기본 소양이 되었다고도 합니다.
+  반면 글 [《The enduring puzzle of why cats always land on their feet》](https://www.sciencefocus.com/science/the-enduring-puzzle-of-why-cats-always-land-on-their-feet)에서는 우주비행사들이 실제로 우주에서 이러한 "bend-and-twist" 전략을 시도해봤는지는 확실하지 않다고 주장합니다.
+  참고로 아래의 사진은 우주비행사가 우주에서 찍은 사진이 아니라, 트램펄린 체조 선수가 우주복을 입고 고양이의 움직임을 흉내내는 사진입니다. 사람 또한 고양이처럼 공중에서 몸을 뒤집을 수 있다고 합니다.
+  ![우주복 입은 체조 선수와 고양이](/posts/falling-cat-problem/우주복-입은-체조-선수와-고양이.jpg)
+
+- 케인의 1969년 논문 [〈A DYNAMICAL EXPLANATION OF THE FALLING CAT PHENOMENON〉](https://pentagono.uniandes.edu.co/~jarteaga/geosem/taller7/minicursoJK-Uniandes/robotic%20examples/kane.pdf)에 따르면, 그는 떨어지는 고양이 사진에서 고양이 움직임의 세 가지 중요한 특징을 제시합니다.
+
+  > I. 척추는 휘어져 있으나, 서로 다른 부분 사이에 상호 비틀림은 없다. (The spine is curved, but there is no mutual torsion between different parts)
+  > II. 전방 만곡에서 척추는 일정한 방향을 따라 측면 굽힘, 후방 굽힘, 측면 굽힘을 수행하고, 마지막으로 초기 굽힘 상태가 될 때까지 전방 굽힘을 수행한다. (The spine from the forward curve is along a certain direction to lateral bending, backward bending, lateral bending, and then forward bending to the initial bending state)
+  > III. 척추의 후방 만곡 정도는 전방 만곡 정도에 비해 훨씬 작다. (The degree of posterior curvature of the spine is much less than that of anterior curvature)
+
+  그런데 라데마커의 해석은 이 중에 (III)과 충돌하는데, 고양이는 앞, 뒤로 동일한 정도의 굽힘을 수행할 수 없기 때문이라고 합니다. 즉 케인의 연구는 기존의 해석이 가지고 있던 한계를 지적하고, 실제 고양이의 움직임을 자세하게 해석하기 위해 노력했다고 볼 수 있습니다.
+
+- 유튜브 동영상 [_Falling Felines and Fundamental Physics - Greg Gbur_](https://www.youtube.com/watch?v=nKlnul5fexQ&ab_channel=UNCCharlotte)에서 Greg Gbur의 강연을 볼 수 있습니다. 떨어지는 고양이 문제부터 시작해서 물리학 전반에 대한 확장된 이야기로 전개되는 것이 재미있습니다. 영상의 33:17 부근에서는 허리를 굽혀서 공중에서 회전하는 고양이의 영상도 볼 수 있습니다.
+  ![강연 자료](/posts/falling-cat-problem/강연-자료.png)
