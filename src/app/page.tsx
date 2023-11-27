@@ -1,19 +1,34 @@
-import { phrases } from '@/data/phrases';
-import SubHeader from '@/components/SubHeader';
-import WorkItem from '@/components/WorkItem';
+import { phrases } from "@/data/phrases";
+import SubHeader from "@/components/SubHeader";
+import WorkItem from "@/components/WorkItem";
+import type { Metadata } from "next";
 
 let GameItems = [
   {
-    name: 'Symmetry Lines',
-    explain: 'Simple puzzle game about symmetry and lines.',
-    src: 'symmetry-lines.png',
-    href: 'https://store.steampowered.com/app/1983540/Symmetry_Lines/',
+    name: "Symmetry Lines",
+    explain: "Simple puzzle game about symmetry and lines.",
+    src: "symmetry-lines.png",
+    href: "https://store.steampowered.com/app/1983540/Symmetry_Lines/",
   },
 ];
 let webAppDevItems = [
-  { name: 'TORP', explain: 'end-to-end ecrypted chat app', src: 'torp.png', href: 'https://torp.geniuslhs.com' },
-  { name: 'OMOK', explain: 'omok service for one-on-one competition', src: 'omok.png', href: 'https://omok.geniuslhs.com' },
+  { name: "TORP", explain: "end-to-end ecrypted chat app", src: "torp.png", href: "https://torp.geniuslhs.com" },
+  { name: "OMOK", explain: "omok service for one-on-one competition", src: "omok.png", href: "https://omok.geniuslhs.com" },
 ];
+
+export const metadata: Metadata = {
+  metadataBase: new URL("https://geniuslhs.com"),
+  title: "geniusLHS",
+  description: "게임 개발, 웹/앱 개발, 정보 보안에 관심을 가지고 있는 개발자 이현서입니다.",
+  openGraph: {
+    title: "geniusLHS",
+    description: "게임 개발, 웹/앱 개발, 정보 보안에 관심을 가지고 있는 개발자 이현서입니다.",
+    images: ["https://github.com/geniusLHS/geniuslhs-blog/blob/main/public/image/geniuslhs-og.png?raw=true"],
+    url: "https://geniuslhs.com",
+    type: "website",
+    siteName: "geniusLHS",
+  },
+};
 
 export default function Home() {
   return (
