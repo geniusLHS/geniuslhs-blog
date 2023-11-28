@@ -30,7 +30,7 @@ export async function generateMetadata({ params }: Props, parent: ResolvingMetad
       title: currentPost?.title ?? "geniusLHS - 블로그",
       description: currentPost?.description ?? "개인적인 작업과 생각들을 적어놓습니다.",
       images: ["https://github.com/geniusLHS/geniuslhs-blog/blob/main/public/image/geniuslhs-og.png?raw=true"],
-      url: "https://geniuslhs.com",
+      url: "https://geniuslhs.com/blog/" + currentPost?.url,
       type: "website",
       siteName: "geniusLHS",
     },

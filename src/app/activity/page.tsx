@@ -12,7 +12,7 @@ export const metadata: Metadata = {
     title: "geniusLHS - 대외 활동",
     description: "대부분 집 밖에 나가서 한 활동들 입니다.",
     images: ["https://github.com/geniusLHS/geniuslhs-blog/blob/main/public/image/geniuslhs-og.png?raw=true"],
-    url: "https://geniuslhs.com",
+    url: "https://geniuslhs.com/activity/",
     type: "website",
     siteName: "geniusLHS",
   },
