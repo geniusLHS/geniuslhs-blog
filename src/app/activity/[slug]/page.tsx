@@ -23,7 +23,6 @@ export async function generateMetadata({ params }: Props, parent: ResolvingMetad
   // const previousImages = (await parent).openGraph?.images || [];
 
   return {
-    metadataBase: new URL("https://geniuslhs.com"),
     title: currentPost?.title ?? "geniusLHS - 대외 활동",
     description: currentPost?.description ?? "대부분 집 밖에 나가서 한 활동들 입니다.",
     openGraph: {

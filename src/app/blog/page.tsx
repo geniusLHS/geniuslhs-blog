@@ -7,7 +7,6 @@ import Head from "next/head";
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
-  metadataBase: new URL("https://geniuslhs.com"),
   title: "geniusLHS - 블로그",
   description: "개인적인 작업과 생각들을 적어놓습니다.",
   openGraph: {

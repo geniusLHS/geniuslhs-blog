@@ -6,7 +6,6 @@ import PostItem from "@/components/PostItem";
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
-  metadataBase: new URL("https://geniuslhs.com"),
   title: "geniusLHS - 대외 활동",
   description: "대부분 집 밖에 나가서 한 활동들 입니다.",
   openGraph: {
