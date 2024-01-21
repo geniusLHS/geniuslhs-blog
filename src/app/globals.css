@@ -460,6 +460,10 @@ code[data-line-numbers] .line::before {
   /* display: none; */
 }
 
+.katex {
+  font-size: 1.1em !important;
+}
+
 /* thumbnail 흐림 문제 개선 */
 img[src$=".gif"],
 img[src$=".png"],
