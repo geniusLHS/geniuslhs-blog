@@ -16,6 +16,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
           integrity="sha384-Xi8rHCmBmhbuyyhbI88391ZKP2dmfnOl4rT9ZfRI7mLTdk1wblIUnrIq35nqwEvC"
           crossOrigin="anonymous"
         />
+        <meta name="google-site-verification" content="esf9ytGOvWiFwjel19LqLBiRCOz5e_Wn1gv8JEFQJPg" />
       </head>
       <body>
         <div className="py-8 sm:py-12 font-sans px-4 bg-[#fdfdfd] min-h-screen">
