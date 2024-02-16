@@ -4,6 +4,8 @@ import type { NextRequest, NextFetchEvent } from "next/server";
 export const middleware: NextMiddleware = async (request: NextRequest, event: NextFetchEvent) => {
   const pathname = request.nextUrl.pathname;
 
+  if (!pathname.startsWith("/blog") && !pathname.startsWith("/activity")) return NextResponse.next();
+
   const sendAnalytics = async () => {
     const slug = pathname.slice(pathname.indexOf("/")) || "/";
     const ip = (request.headers.get("x-forwarded-for") ?? "127.0.0.1").split(",")[0];
@@ -33,7 +35,7 @@ export const middleware: NextMiddleware = async (request: NextRequest, event: Ne
 export const config = {
   matcher: [
     {
-      source: ["/blog/:path+", "/activity/:path+"],
+      source: "/((?!api|_next/static|_next/image|favicon.ico).*)",
       missing: [
         { type: "header", key: "next-router-prefetch" },
         { type: "header", key: "purpose", value: "prefetch" },
