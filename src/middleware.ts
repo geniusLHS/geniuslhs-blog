@@ -6,6 +6,7 @@ export const middleware: NextMiddleware = async (request: NextRequest, event: Ne
 
   const sendAnalytics = async () => {
     const slug = pathname.slice(pathname.indexOf("/")) || "/";
+    const ip = (request.headers.get("x-forwarded-for") ?? "127.0.0.1").split(",")[0];
 
     const URL = process.env.NODE_ENV === "production" ? "https://geniuslhs.com/api/view" : "http://localhost:3000/api/view";
     console.log(URL);
@@ -16,6 +17,7 @@ export const middleware: NextMiddleware = async (request: NextRequest, event: Ne
       },
       body: JSON.stringify({
         slug,
+        ip,
       }),
     });
 
