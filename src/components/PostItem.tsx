@@ -1,11 +1,13 @@
-"use client";
-
 import { Post } from "contentlayer/generated";
 import Image from "next/image";
 import Link from "next/link";
+import supabase from "@/lib/supabase/public";
 import dayjs from "dayjs";
+import { LuEye, LuCalendar } from "react-icons/lu";
 
-const PostItem = (post: Post) => {
+const PostItem = async (post: Post) => {
+  const { data, error } = await supabase.from("analytics_views").select().eq("slug", `/${post.category.toLowerCase()}/${post.url}`).limit(1).single();
+
   return (
     <Link
       href={post.category.toLowerCase() + "/" + post.url}
@@ -14,7 +16,15 @@ const PostItem = (post: Post) => {
       <div className="flex flex-col flex-nowrap items-start flex-1">
         <div className="text-xl font-bold my-1">{post.title}</div>
         <div className="font-light break-words text-lg md:text-base">{post.description}</div>
-        <div className="text-sm mt-1 text-slate-500">{dayjs(post.date).format("YYYY. MM. DD")}</div>
+        <div className="text-sm mt-1 text-slate-500">
+          <div className="flex flex-row justify-center items-center">
+            <LuCalendar className="mr-1 -mt-0.5" height="0.777em" />
+            {dayjs(post.date).format("YYYY. MM. DD")}
+
+            <LuEye className="ml-4 mr-1 -mt-[0.1rem]" height="0.777em" />
+            {!error && data != null ? data.views : 0}
+          </div>
+        </div>
       </div>
       <Image src={post.thumbnailUrl} className="rounded-lg mx-3 thumbnail" alt="thumbnail" width={80} height={80} />
     </Link>

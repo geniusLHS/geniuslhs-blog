@@ -1,8 +1,10 @@
-import { allPosts } from "contentlayer/generated";
-import { notFound } from "next/navigation";
-import { getMDXLayout, postComponents } from "@/components/mdx-components";
-import dayjs from "dayjs";
 import type { Metadata, ResolvingMetadata } from "next";
+import { notFound } from "next/navigation";
+import { allPosts } from "contentlayer/generated";
+import { getMDXLayout, postComponents } from "@/components/mdx-components";
+import supabase from "@/lib/supabase/public";
+import dayjs from "dayjs";
+import { LuEye, LuCalendar } from "react-icons/lu";
 
 interface Props {
   params: {
@@ -36,12 +38,14 @@ export async function generateMetadata({ params }: Props, parent: ResolvingMetad
   };
 }
 
-export default function PostLayout({ params }: Props) {
+export default async function PostLayout({ params }: Props) {
   const currentPost = allPosts.find((post) => post._raw.sourceFileName.split(".mdx")[0] === params.slug && post.category == "Activity");
 
   if (!currentPost) {
     notFound();
   }
+
+  const { data, error } = await supabase.from("analytics_views").select().eq("slug", `/activity/${params.slug}`).limit(1).single();
 
   const MDXLayout = getMDXLayout(currentPost.body.code);
 
@@ -50,7 +54,15 @@ export default function PostLayout({ params }: Props) {
       <div className="text-center pt-8 pb-8 mb-4 border-b border-b-[#898ea4]">
         <h1 className="text-4xl font-bold pb-5">{currentPost.title}</h1>
         <p className="text-lg">{currentPost.description}</p>
-        <p className="text-gray-500">{dayjs(currentPost.date).format("YYYY. MM. DD")}</p>
+        <div className="text-gray-500">
+          <div className="flex flex-row justify-center items-center">
+            <LuCalendar className="mr-1.5" />
+            {dayjs(currentPost.date).format("YYYY. MM. DD")}
+
+            <LuEye className="ml-4 mr-1.5" />
+            {!error && data != null ? data.views : 0}
+          </div>
+        </div>
       </div>
       <article className="w-full prose">
         <MDXLayout components={postComponents} />
