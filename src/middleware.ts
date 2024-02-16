@@ -31,5 +31,13 @@ export const middleware: NextMiddleware = async (request: NextRequest, event: Ne
 };
 
 export const config = {
-  matcher: ["/blog/:path+", "/activity/:path+"],
+  matcher: [
+    {
+      source: ["/blog/:path+", "/activity/:path+"],
+      missing: [
+        { type: "header", key: "next-router-prefetch" },
+        { type: "header", key: "purpose", value: "prefetch" },
+      ],
+    },
+  ],
 };
