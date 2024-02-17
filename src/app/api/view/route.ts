@@ -1,14 +1,14 @@
 import supabase from "@/lib/supabase/private";
-import { type NextRequest } from "next/server";
+import { NextResponse, type NextRequest } from "next/server";
 
 export async function GET(request: NextRequest) {
   const slug = decodeURIComponent(request.nextUrl.searchParams.get("slug") ?? "");
 
   const { data, error } = await supabase.rpc("get_views", { page_slug: slug });
 
-  if (error) return Response.error();
+  if (error) return NextResponse.error();
 
-  return Response.json({ view: data });
+  return NextResponse.json({ view: data });
 }
 
 export async function POST(request: NextRequest) {
