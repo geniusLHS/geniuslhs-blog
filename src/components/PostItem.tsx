@@ -15,12 +15,12 @@ const PostItem = async (post: Post) => {
   const { data, error } = await supabase.from("analytics_views").select().eq("slug", `/${post.category.toLowerCase()}/${post.url}`).limit(1).single();
 
   return (
-    <button
+    <div
       onClick={() => router.push(post.category.toLowerCase() + "/" + post.url)}
       className="flex flex-nowrap w-full rounded-lg transition-all py-2 px-4 items-center bg-[#f8f8f8] hover:hover:bg-[#efefef]"
     >
       <div className="flex flex-col flex-nowrap items-start flex-1">
-        <div className="text-xl font-bold my-1">{post.title}</div>
+        {/* <div className="text-xl font-bold my-1">{post.title}</div> */}
         <div className="font-light break-words text-lg md:text-base">{post.description}</div>
         <div className="text-sm mt-1 text-slate-500">
           <div className="flex flex-row justify-center items-center">
@@ -33,7 +33,7 @@ const PostItem = async (post: Post) => {
         </div>
       </div>
       <Image src={post.thumbnailUrl} className="rounded-lg mx-3 thumbnail" alt="thumbnail" width={80} height={80} />
-    </button>
+    </div>
   );
 };
 
