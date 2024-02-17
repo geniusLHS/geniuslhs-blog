@@ -33,7 +33,7 @@ export const PostViews = ({ category, slug, isVisit }: Props) => {
   return (
     <>
       <LuEye className="ml-4 mr-1" />
-      {!error && data ? data.view : 0}
+      {!error && data ? data.view : "-"}
     </>
   );
 };
