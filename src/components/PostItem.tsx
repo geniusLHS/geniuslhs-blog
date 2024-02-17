@@ -10,7 +10,7 @@ const PostItem = async (post: Post) => {
   const { data, error } = await supabase.from("analytics_views").select().eq("slug", `/${post.category.toLowerCase()}/${post.url}`).limit(1).single();
 
   return (
-    <a
+    <LinkNoPrefetch
       href={post.category.toLowerCase() + "/" + post.url}
       className="flex flex-nowrap w-full rounded-lg transition-all py-2 px-4 items-center bg-[#f8f8f8] hover:hover:bg-[#efefef]"
     >
@@ -28,7 +28,7 @@ const PostItem = async (post: Post) => {
         </div>
       </div>
       <Image src={post.thumbnailUrl} className="rounded-lg mx-3 thumbnail" alt="thumbnail" width={80} height={80} />
-    </a>
+    </LinkNoPrefetch>
   );
 };
 

@@ -17,9 +17,9 @@ const LinkNoPrefetch = ({ href, className, children }: Props) => {
   };
 
   return (
-    <a href={href} onClick={handleClick} className={className}>
+    <button onClick={handleClick} className={className}>
       {children}
-    </a>
+    </button>
   );
 };
 
