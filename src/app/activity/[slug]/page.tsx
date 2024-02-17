@@ -55,7 +55,7 @@ export default async function PostLayout({ params }: Props) {
         <p className="text-lg">{currentPost.description}</p>
         <div className="text-gray-500">
           <div className="flex flex-row justify-center items-center">
-            <LuCalendar className="mr-1.5" />
+            <LuCalendar className="mr-1" />
             {dayjs(currentPost.date).format("YYYY. MM. DD")}
 
             <PostViews category={"activity"} slug={params.slug} isVisit={true}></PostViews>
