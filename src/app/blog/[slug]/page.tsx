@@ -5,6 +5,7 @@ import { getMDXLayout, postComponents } from "@/components/mdx-components";
 import supabase from "@/lib/supabase/public";
 import dayjs from "dayjs";
 import { LuEye, LuCalendar } from "react-icons/lu";
+import PostViews from "@/components/PostViews";
 
 interface Props {
   params: {
@@ -41,27 +42,11 @@ export async function generateMetadata({ params }: Props, parent: ResolvingMetad
 
 export default async function PostLayout({ params }: Props) {
   const currentPost = allPosts.find((post) => post._raw.sourceFileName.split(".mdx")[0] === params.slug && post.category == "Blog");
-  const pathname = `/blog/${params.slug}`;
-
   if (!currentPost) {
     notFound();
   }
 
-  const { data, error } = await supabase.from("analytics_views").select().eq("slug", pathname).limit(1).single();
-
-  const slug = pathname.slice(pathname.indexOf("/")) || "/";
-
-  const URL = process.env.NODE_ENV === "production" ? "https://geniuslhs.com/api/view" : "http://localhost:3000/api/view";
-  console.log(URL);
-  const res = await fetch(`${URL}`, {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify({
-      slug,
-    }),
-  });
+  const pathname = `/blog/${params.slug}`;
 
   const MDXLayout = getMDXLayout(currentPost.body.code);
 
@@ -74,9 +59,7 @@ export default async function PostLayout({ params }: Props) {
           <div className="flex flex-row justify-center items-center">
             <LuCalendar className="mr-1.5" />
             {dayjs(currentPost.date).format("YYYY. MM. DD")}
-
-            <LuEye className="ml-4 mr-1.5" />
-            {!error && data != null ? data.views : 0}
+            <PostViews pathname={pathname} />
           </div>
         </div>
       </div>
