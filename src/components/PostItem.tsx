@@ -1,22 +1,18 @@
-"use client";
-
 import { Post } from "contentlayer/generated";
 import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
+import { useEffect, useState } from "react";
+import useSWR from "swr";
 import supabase from "@/lib/supabase/public";
 import dayjs from "dayjs";
 import { LuEye, LuCalendar } from "react-icons/lu";
-import LinkNoPrefetch from "./LinkNoPrefetch";
+import { PostViews } from "./PostViews";
 
-const PostItem = async (post: Post) => {
-  const router = useRouter();
-
-  const { data, error } = await supabase.from("analytics_views").select().eq("slug", `/${post.category.toLowerCase()}/${post.url}`).limit(1).single();
-
+const PostItem = (post: Post) => {
   return (
-    <button
-      onClick={() => router.push(post.category.toLowerCase() + "/" + post.url)}
+    <Link
+      href={post.category.toLowerCase() + "/" + post.url}
       className="flex flex-nowrap w-full rounded-lg transition-all py-2 px-4 items-center bg-[#f8f8f8] hover:hover:bg-[#efefef]"
     >
       <div className="flex flex-col flex-nowrap items-start flex-1">
@@ -27,13 +23,12 @@ const PostItem = async (post: Post) => {
             <LuCalendar className="mr-1 -mt-0.5" height="0.777em" />
             {dayjs(post.date).format("YYYY. MM. DD")}
 
-            <LuEye className="ml-4 mr-1 -mt-[0.1rem]" height="0.777em" />
-            {!error && data != null ? data.views : 0}
+            <PostViews category={post.category.toLowerCase()} slug={post.url} isVisit={false}></PostViews>
           </div>
         </div>
       </div>
       <Image src={post.thumbnailUrl} className="rounded-lg mx-3 thumbnail" alt="thumbnail" width={80} height={80} />
-    </button>
+    </Link>
   );
 };
 

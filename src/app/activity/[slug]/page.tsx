@@ -5,6 +5,7 @@ import { getMDXLayout, postComponents } from "@/components/mdx-components";
 import supabase from "@/lib/supabase/public";
 import dayjs from "dayjs";
 import { LuEye, LuCalendar } from "react-icons/lu";
+import { PostViews } from "@/components/PostViews";
 
 interface Props {
   params: {
@@ -45,8 +46,6 @@ export default async function PostLayout({ params }: Props) {
     notFound();
   }
 
-  const { data, error } = await supabase.from("analytics_views").select().eq("slug", `/activity/${params.slug}`).limit(1).single();
-
   const MDXLayout = getMDXLayout(currentPost.body.code);
 
   return (
@@ -59,8 +58,7 @@ export default async function PostLayout({ params }: Props) {
             <LuCalendar className="mr-1.5" />
             {dayjs(currentPost.date).format("YYYY. MM. DD")}
 
-            <LuEye className="ml-4 mr-1.5" />
-            {!error && data != null ? data.views : 0}
+            <PostViews category={"activity"} slug={params.slug} isVisit={true}></PostViews>
           </div>
         </div>
       </div>
