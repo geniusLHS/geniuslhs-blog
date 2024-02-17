@@ -1,11 +1,26 @@
+"use client";
+
 import { Post } from "contentlayer/generated";
 import Image from "next/image";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
+import { useEffect } from "react";
 import supabase from "@/lib/supabase/public";
 import dayjs from "dayjs";
 import { LuEye, LuCalendar } from "react-icons/lu";
+import LinkNoPrefetch from "./LinkNoPrefetch";
 
 const PostItem = async (post: Post) => {
+  const router = useRouter();
+
+  useEffect(() => {
+    const prefetch = router.prefetch;
+    router.prefetch = async () => {};
+    return () => {
+      router.prefetch = prefetch;
+    };
+  }, [router]);
+
   const { data, error } = await supabase.from("analytics_views").select().eq("slug", `/${post.category.toLowerCase()}/${post.url}`).limit(1).single();
 
   return (
