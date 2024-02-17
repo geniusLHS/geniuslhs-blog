@@ -1,29 +1,16 @@
-"use client";
-
 import { Post } from "contentlayer/generated";
 import Image from "next/image";
 import Link from "next/link";
-import { useRouter } from "next/navigation";
-import { useEffect } from "react";
 import supabase from "@/lib/supabase/public";
 import dayjs from "dayjs";
 import { LuEye, LuCalendar } from "react-icons/lu";
+import LinkNoPrefetch from "./LinkNoPrefetch";
 
 const PostItem = async (post: Post) => {
-  const router = useRouter();
-
-  useEffect(() => {
-    const prefetch = router.prefetch;
-    router.prefetch = async () => {};
-    return () => {
-      router.prefetch = prefetch;
-    };
-  }, [router]);
-
   const { data, error } = await supabase.from("analytics_views").select().eq("slug", `/${post.category.toLowerCase()}/${post.url}`).limit(1).single();
 
   return (
-    <Link
+    <LinkNoPrefetch
       href={post.category.toLowerCase() + "/" + post.url}
       className="flex flex-nowrap w-full rounded-lg transition-all py-2 px-4 items-center bg-[#f8f8f8] hover:hover:bg-[#efefef]"
     >
@@ -41,7 +28,7 @@ const PostItem = async (post: Post) => {
         </div>
       </div>
       <Image src={post.thumbnailUrl} className="rounded-lg mx-3 thumbnail" alt="thumbnail" width={80} height={80} />
-    </Link>
+    </LinkNoPrefetch>
   );
 };
 
