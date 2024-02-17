@@ -8,7 +8,6 @@ import { useEffect } from "react";
 import supabase from "@/lib/supabase/public";
 import dayjs from "dayjs";
 import { LuEye, LuCalendar } from "react-icons/lu";
-import LinkNoPrefetch from "./LinkNoPrefetch";
 
 const PostItem = async (post: Post) => {
   const router = useRouter();
