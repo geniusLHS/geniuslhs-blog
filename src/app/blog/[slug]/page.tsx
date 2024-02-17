@@ -41,27 +41,12 @@ export async function generateMetadata({ params }: Props, parent: ResolvingMetad
 
 export default async function PostLayout({ params }: Props) {
   const currentPost = allPosts.find((post) => post._raw.sourceFileName.split(".mdx")[0] === params.slug && post.category == "Blog");
-  const pathname = `/blog/${params.slug}`;
 
   if (!currentPost) {
     notFound();
   }
 
-  const { data, error } = await supabase.from("analytics_views").select().eq("slug", pathname).limit(1).single();
-
-  const slug = pathname.slice(pathname.indexOf("/")) || "/";
-
-  const URL = process.env.NODE_ENV === "production" ? "https://geniuslhs.com/api/view" : "http://localhost:3000/api/view";
-  console.log(URL);
-  const res = await fetch(`${URL}`, {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify({
-      slug,
-    }),
-  });
+  const { data, error } = await supabase.from("analytics_views").select().eq("slug", `/blog/${params.slug}`).limit(1).single();
 
   const MDXLayout = getMDXLayout(currentPost.body.code);
 
