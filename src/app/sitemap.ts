@@ -25,7 +25,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
 
   let dynamicSiteMap: MetadataRoute.Sitemap = allPosts.map((post) => {
     return {
-      url: `https://geniuslhs.com/${post.category === "Blog" ? "blog" : "activity"}/${post.url}`,
+      url: `https://geniuslhs.com/${post.category === "Blog" ? "blog" : "activity"}/${post.slug}`,
       lastModified: new Date(post.date),
       changeFrequency: "monthly",
       priority: 0.64,
