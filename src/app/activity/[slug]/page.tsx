@@ -32,7 +32,7 @@ export async function generateMetadata({ params }: Props, parent: ResolvingMetad
       title: currentPost?.title ?? "geniusLHS - 대외 활동",
       description: currentPost?.description ?? "대부분 집 밖에 나가서 한 활동들 입니다.",
       images: ["https://github.com/geniusLHS/geniuslhs-blog/blob/main/public/image/geniuslhs-og.png?raw=true"],
-      url: "https://geniuslhs.com/activity/" + currentPost?.url,
+      url: "https://geniuslhs.com/activity/" + currentPost?.slug,
       type: "website",
       siteName: "geniusLHS",
     },
@@ -40,7 +40,7 @@ export async function generateMetadata({ params }: Props, parent: ResolvingMetad
 }
 
 export default async function PostLayout({ params }: Props) {
-  const currentPost = allPosts.find((post) => post._raw.sourceFileName.split(".mdx")[0] === params.slug && post.category == "Activity");
+  const currentPost = allPosts.find((post) => post.slug === params.slug && post.category == "Activity");
 
   if (!currentPost) {
     notFound();

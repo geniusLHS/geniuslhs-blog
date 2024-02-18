@@ -15,7 +15,7 @@ interface Props {
 
 export const generateStaticParams = async () => {
   return allPosts.map((post) => ({
-    slug: post._raw.sourceFileName.split(".mdx")[0],
+    slug: post.slug,
   }));
 };
 
@@ -33,7 +33,7 @@ export async function generateMetadata({ params }: Props, parent: ResolvingMetad
       title: currentPost?.title ?? "geniusLHS - 블로그",
       description: currentPost?.description ?? "개인적인 작업과 생각들을 적어놓습니다.",
       images: ["https://github.com/geniusLHS/geniuslhs-blog/blob/main/public/image/geniuslhs-og.png?raw=true"],
-      url: "https://geniuslhs.com/blog/" + currentPost?.url,
+      url: "https://geniuslhs.com/blog/" + currentPost?.slug,
       type: "website",
       siteName: "geniusLHS",
     },
@@ -41,7 +41,7 @@ export async function generateMetadata({ params }: Props, parent: ResolvingMetad
 }
 
 export default async function PostLayout({ params }: Props) {
-  const currentPost = allPosts.find((post) => post._raw.sourceFileName.split(".mdx")[0] === params.slug && post.category == "Blog");
+  const currentPost = allPosts.find((post) => post.slug === params.slug && post.category == "Blog");
 
   if (!currentPost) {
     notFound();

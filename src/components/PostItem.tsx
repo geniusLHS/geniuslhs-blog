@@ -12,7 +12,7 @@ import { PostViews } from "./PostViews";
 const PostItem = (post: Post) => {
   return (
     <Link
-      href={post.category.toLowerCase() + "/" + post.url}
+      href={post.category.toLowerCase() + "/" + post.slug}
       className="flex flex-nowrap w-full rounded-lg transition-all py-2 px-4 items-center bg-[#f8f8f8] hover:hover:bg-[#efefef]"
     >
       <div className="flex flex-col flex-nowrap items-start flex-1">
@@ -23,7 +23,7 @@ const PostItem = (post: Post) => {
             <LuCalendar className="mr-1 -mt-0.5" height="0.777em" />
             {dayjs(post.date).format("YYYY. MM. DD")}
 
-            <PostViews category={post.category.toLowerCase()} slug={post.url} isVisit={false}></PostViews>
+            <PostViews category={post.category.toLowerCase()} slug={post.slug} isVisit={false}></PostViews>
           </div>
         </div>
       </div>
