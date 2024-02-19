@@ -103,7 +103,7 @@ thumbnailUrl: /posts/nextjs-view-counter-with-supabase/supabase-logo.jpeg
               WHERE pathname = page_pathname;
           ELSE
               INSERT into analytics_views(pathname, views)
-              VALUES (page_slug, 1);
+              VALUES (page_pathname, 1);
           END IF;
       END IF;
     END;
