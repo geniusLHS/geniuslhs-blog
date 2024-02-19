@@ -101,7 +101,7 @@ a {
 
 li,
 ul {
-  list-style-type: disc;
+  /* list-style-type: disc; */
 }
 
 a {
@@ -292,6 +292,7 @@ code[class*="language-"] ::selection {
 .prose ol {
   padding-inline-start: 20px;
   /* text-wrap: balance; */
+  list-style-type: decimal;
   word-break: keep-all;
   margin: 15px 0;
 }
