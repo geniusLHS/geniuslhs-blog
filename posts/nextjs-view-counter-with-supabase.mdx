@@ -1,0 +1,270 @@
+---
+title: supabase로 Next.js 블로그에 실시간 페이지 조회수 보여주기
+date: 2024-02-19
+category: Blog
+description: supabase 회원가입부터 시작하는 간단한 튜토리얼
+thumbnailUrl: /posts/nextjs-view-counter-with-supabase/supabase-logo.jpeg
+---
+
+## 개요
+
+최근에 새로운 프로젝트를 시작하면서 데이터베이스를 사용해야 할 일이 생겼습니다. 그동안 [supabase](https://supabase.com/)를 눈여겨 보고는 있었지만 한번도 사용해본적이 없어서 막상 개발을 시작하려니 겁이 나더군요. 그래서 우선 작은 규모의 코드부터 작성해보자고 생각했습니다. 그렇게 제 블로그에 페이지 조회수를 보여주는 기능을 구현하게 되었습니다.
+
+저는 개발을 하면서 관련 튜토리얼이 부족하다고 느꼈습니다. 일단 Next.js + supabase 조합으로 조회수 기능을 구현하는 튜토리얼 자체도 몇 개 없는데다, 최근에 `Next.js 13`에서 추가된 `App router`를 채택한 블로그는 하나도 없었습니다. 제가 겪은 시행착오를 공유하고, 저 스스로도 나중에 볼 수 있도록 정리하기 위해 이 튜토리얼을 작성합니다.
+
+이 글에서는
+
+- 이미 Next.js 블로그를 가지고 있다고 가정합니다.
+- App router를 사용합니다.
+- supabase는 회원가입부터 시작합니다. 전혀 몰라도 괜찮습니다.
+
+## 본론
+
+### Supabase: 데이터베이스 및 함수 생성
+
+1. [supabase](https://supabase.com/) 에 접속하여 회원가입을 합니다.
+
+2. 대시보드에서 `New project` 버튼을 누르고 프로젝트 이름과 비밀번호를 입력합니다. 이때 Region은 `Northeast Asia (Seoul)`로 선택합니다.
+
+3. 생성한 프로젝트로 들어간 뒤 왼쪽의 네비게이션 바에서 `Table Editor`를 선택합니다. `Create a new table` 버튼을 통해 새로운 테이블을 만들 수 있습니다. 저희는 2개의 테이블을 만들 것이고, 각각의 테이블은 4개의 열로 구성됩니다.
+
+- `analytics_ip`
+
+  - Name: `id`, Type: `int8`, `Primary`, `Is Identity` (처음 그대로)
+  - Name: `pathname`, Type: `text`
+  - Name: `ip`, Type: `text`
+  - Name: `visited_at`, Type: `timestamptz`, Default Value: `now()`
+
+- `analytics_views`
+
+  - Name: `id`, Type: `int8`, `Primary`, `Is Identity` (처음 그대로)
+  - Name: `pathname`, Type: `text`
+  - Name: `views`, Type: `int8`
+  - Name: `updated_at`, Type: `timestamptz`, Default Value: `now()`
+
+> `Enable Row Level Security`, `Enable Realtime`은 모두 체크합니다. 그리고 `id`를 제외한 각 열에서 톱니바퀴를 눌러 `Is Nullable`을 모두 해제합니다.
+
+예를 들어 `analytics_ip` 테이블의 생성 화면은 아래와 같습니다.
+
+![analytics_ip 테이블 생성 예시](/posts/nextjs-view-counter-with-supabase/analytics_ip-테이블-생성-예시.png)
+
+`analytics_views` 테이블도 비슷하게 작성해주세요.
+
+4. 테이블이 생성되었다면 우측 상단의 `Realtime off` 버튼을 눌러 Realtime 기능을 활성화 해줍니다.
+
+5. 좌측의 네비게이션 바에서 `Authentication`을 선택하고, `Policies` 메뉴로 들어갑니다. 각 테이블 오른쪽 위에 있는 `New Policy` 버튼을 눌러 새로운 규칙을 생성합니다. 템플릿을 사용하면 간편하게 작업할 수 있습니다. 아래 사진처럼 되도록 `analytics_ip` 테이블에서는 `INSERT`를 허용하고, `analytics_views` 테이블에서는 `INSERT`, `SELECT`를 허용합니다.
+
+![RLS 설정](/posts/nextjs-view-counter-with-supabase/RLS-설정.png)
+
+> [RLS(Row Level Security)](https://supabase.com/docs/guides/auth/row-level-security)는 행 단위의 보안을 제공하는 기능입니다. 예를 들어 `blog_post` 테이블에서 `author_id`열의 값과 같은 user id 값을 가지고 있는 사용자만 해당 행을 `UPDATE`할 수 있도록 권한을 통제할 수 있습니다.
+
+6. 네비게이션 바에서 `Database`를 선택하고, `Functions` 메뉴로 들어갑니다. `Create a new Function` 버튼을 눌러 새로운 함수를 만듭니다. 저희는 2개의 함수를 만들 것입니다.
+
+- `get_views`
+
+  - Arguments: `page_pathname` (Type: `text`)
+  - Definition:
+
+        ```sql
+        DECLARE
+          views_count BIGINT;
+        BEGIN
+          SELECT views INTO views_count
+          FROM analytics_views
+          WHERE pathname = page_pathname;
+
+          IF NOT FOUND THEN
+                RETURN 0;
+          ELSE
+                RETURN views_count;
+          END IF;
+        END;
+        ```
+
+이 함수는 주어진 `page_pathname` 페이지의 조회수를 찾아 반환해줍니다.
+
+- `new_visitor`
+
+  - Arguments: `page_pathname` (Type: `text`), `user_ip` (Type: `text`)
+  - Definition:
+
+    ```sql
+    BEGIN
+      IF EXISTS (SELECT 1 FROM analytics_ip WHERE ip = user_ip AND pathname = page_pathname AND visited_at >= now() - interval '1 day') THEN
+          RETURN;
+      ELSE
+          INSERT INTO analytics_ip (pathname, ip)
+          VALUES (page_pathname, user_ip);
+
+          IF EXISTS (SELECT FROM analytics_views WHERE pathname=page_pathname) THEN
+              UPDATE analytics_views
+              SET views = views + 1,
+                  updated_at = now()
+              WHERE pathname = page_pathname;
+          ELSE
+              INSERT into analytics_views(pathname, views)
+              VALUES (page_slug, 1);
+          END IF;
+      END IF;
+    END;
+    ```
+
+이 함수는 직전 하루동안 동일한 ip로 동일한 페이지에 접속한 기록이 있다면 아무것도 하지 않습니다. 접속한 기록이 없다면 해당 정보를 `analytics_ip` 테이블에 저장하고, `analytics_views` 테이블에서 동일한 페이지의 조회수를 1 증가시킵니다.
+
+7. 왼쪽의 네비게이션 바에서 `Project Settings`를 선택하고, `API` 메뉴로 들어갑니다. 들어가자마자 보이는 세 개의 값 `URL`, `anon` key, `service_role` key를 사용할 것입니다.
+
+![API 키 복사](/posts/nextjs-view-counter-with-supabase/API-키-복사.png)
+
+> 주의: `service_role` key는 유출되지 않도록 조심하세요.
+
+### Next.js: 서버 측 코드 작성
+
+1. 우선 위에서 찾은 API 키들을 환경변수로 추가합시다. 만약 Vercel의 호스팅 서비스를 사용중이라면, 아래 사진처럼 설정 창에 들어가 직접 환경변수를 추가할 수 있습니다.
+
+![Vercel 환경변수 추가](/posts/nextjs-view-counter-with-supabase/Vercel-환경변수-추가.png)
+
+개발 환경에서는 경로 최상단에 `.env` 파일을 만들어 아래와 같이 입력합니다. 이때 `.gitignore` 파일에 `.env`를 추가하여 `service_role` key가 github에 업로드 되지 않도록 하세요.
+
+```python
+NEXT_PUBLIC_SUPABASE_URL=<your URL>
+NEXT_PUBLIC_SUPABASE_ANON_KEY=<anon_public_key>
+SUPABASE_SERVICE_ROLE_KEY=<service_role_key>
+```
+
+2. `@supabase/supabase-js` 패키지를 설치합니다.
+
+```bash
+npm install @supabase/supabase-js
+```
+
+3. `lib` 폴더에 두개의 파일 `supabase/public.ts`, `supabase/private.ts`를 생성합니다. 코드는 각각 아래와 같습니다.
+
+`lib/supabase/public.ts`
+
+```typescript
+import { createClient } from "@supabase/supabase-js";
+
+if (!process.env.NEXT_PUBLIC_SUPABASE_URL || !process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY) {
+  throw new Error("Missing env vars SUPABASE_URL or SUPABASE_ANON_KEY");
+}
+
+const publicClient = createClient(process.env.NEXT_PUBLIC_SUPABASE_URL, process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY);
+
+export default publicClient;
+```
+
+`lib/supabase/private.ts`
+
+```ts
+import { createClient } from "@supabase/supabase-js";
+
+if (!process.env.NEXT_PUBLIC_SUPABASE_URL || !process.env.SUPABASE_SERVICE_ROLE_KEY) {
+  throw new Error("Missing env vars SUPABASE_URL or SUPABASE_SERVICE_ROLE_KEY");
+}
+
+const privateClient = createClient(process.env.NEXT_PUBLIC_SUPABASE_URL, process.env.SUPABASE_SERVICE_ROLE_KEY);
+
+export default privateClient;
+```
+
+4. 서버에서 조회수 관련 요청을 처리하기 위한 [Route Handler](https://nextjs.org/docs/app/building-your-application/routing/route-handlers)를 만들 것입니다. `/api/views` 엔드포인트로의 요청을 처리하기 위해 `app/api/views/route.ts` 파일을 생성하고 다음과 같이 입력합니다.
+
+```ts
+import supabase from "@/lib/supabase/private";
+import { NextResponse, NextRequest } from "next/server";
+
+export async function GET(request: NextRequest) {
+  const pathname = decodeURIComponent(request.nextUrl.searchParams.get("pathname") ?? "");
+
+  const { data, error } = await supabase.rpc("get_views", { page_pathname: pathname });
+
+  if (error)
+    new Response(`Webhook error: ${error}`, {
+      status: 400,
+    });
+
+  return NextResponse.json({ views: data });
+}
+
+export async function POST(request: NextRequest) {
+  try {
+    const { pathname } = await request.json();
+    const ip = (request.headers.get("x-forwarded-for") ?? "127.0.0.1").split(",")[0];
+
+    if (ip === "127.0.0.1" || ip === "::1")
+      return new Response("ip is 127.0.0.1 or ::1", {
+        status: 400,
+      });
+
+    await supabase.rpc("new_visitor", { page_pathname: pathname, user_ip: ip });
+  } catch (error) {
+    return new Response(`Webhook error: ${error}`, {
+      status: 400,
+    });
+  }
+
+  return new Response("Success", {
+    status: 200,
+  });
+}
+```
+
+`GET` 요청을 받으면 pathname에 해당하는 페이지의 조회수를 반환합니다. `POST` 요청을 받으면 pathname과 사용자의 IP 주소를 supabase 서버로 넘겨 기록을 남깁니다.
+
+### Next.js: 클라이언트 측 코드 작성
+
+클라이언트 측 코드는 블로그 구현 방법에 따라 차이가 있기 때문에, 위에서 생성한 API를 어떻게 사용하는지만 간단하게 설명하겠습니다.
+
+1. 주어진 페이지 경로의 조회수를 얻고 싶다면 쿼리스트링 형식으로 정보를 담아서 GET 요청을 보내면 됩니다. 저는 간편한 data fetch를 위해 [swr](https://swr.vercel.app/ko) 라이브러리를 사용했습니다. `useSWR`을 사용하면 사용자가 페이지를 다시 포커스 했을 때 자동으로 데이터가 갱신됩니다.
+
+```tsx
+import useSWR from "swr";
+
+interface Props {
+  pathname: string;
+}
+
+export const PostViews = ({ pathname }: Props) => {
+  const { data, error, isLoading } = useSWR(`/api/views?pathname=${encodeURIComponent(pathname)}`, (url) => fetch(url).then((r) => r.json()));
+
+  return <div>{!error && data ? data.views : "-"}</div>;
+};
+```
+
+2. 사용자가 페이지를 조회했다면 JSON 형식으로 해당 정보를 담아 POST 요청을 보내면 됩니다.
+
+```tsx
+"use client";
+
+import { useEffect } from "react";
+
+interface Props {
+  pathname: string;
+}
+
+export const PostViewss = ({ pathname }: Props) => {
+  useEffect(() => {
+    const res = fetch("/api/views", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        pathname: pathname,
+      }),
+    });
+  }, []);
+
+  return (...);
+};
+```
+
+이제 홈페이지에 접속하면 아래처럼 조회수를 확인할 수 있습니다!
+
+![조회수 기능 완성 예시](/posts/nextjs-view-counter-with-supabase/조회수-기능-완성-예시.png)
+
+## 여담
+
+최근에 제 개발 블로그를 조금씩 개편하고 있습니다. SEO를 위해 `sitemap`을 제작하여 `Google Search Console`에 제출하였고, 이번 글의 내용처럼 조회수 기능도 구현했습니다. 디자인 면에서 조금 이상한 점이 있어 `globals.css`를 조금씩 수정하기도 했습니다. 이 과정에서 점점 더 완성형 블로그가 되어가는 것 같아 뿌듯합니다.
+
+앞으로도 자료가 많이 없는 튜토리얼은 이렇게 블로그 글로 남겨놓아야겠습니다.
