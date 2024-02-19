@@ -11,14 +11,11 @@ interface Props {
 }
 
 export const PostViews = ({ category, slug, isVisit }: Props) => {
-  const { data, error, isLoading } = useSWR(`/api/views?pathname=${encodeURIComponent(`/${category}/${slug}`)}`, (url) =>
-    fetch(url, { method: "GET" }).then((r) => r.json())
-  );
+  const { data, error, isLoading } = useSWR(`/api/views?pathname=${encodeURIComponent(`/${category}/${slug}`)}`, (url) => fetch(url).then((r) => r.json()));
 
   useEffect(() => {
-    const URL = process.env.NODE_ENV === "production" ? "https://geniuslhs.com/api/views" : "http://localhost:3000/api/views";
     const res = isVisit
-      ? fetch(`${URL}`, {
+      ? fetch("/api/views", {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
