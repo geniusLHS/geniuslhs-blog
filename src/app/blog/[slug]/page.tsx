@@ -6,6 +6,7 @@ import supabase from "@/lib/supabase/public";
 import dayjs from "dayjs";
 import { LuEye, LuCalendar } from "react-icons/lu";
 import { PostViews } from "@/components/PostViews";
+import Comments from "@/components/Comments";
 
 interface Props {
   params: {
@@ -66,6 +67,7 @@ export default async function PostLayout({ params }: Props) {
       <article className="w-full prose">
         <MDXLayout components={postComponents} />
       </article>
+      <Comments repo="geniusLHS/geniuslhs-blog" repoId="R_kgDOJ5C_5A" category="Announcements" categoryId="DIC_kwDOJ5C_5M4CdovT" />
     </>
   );
 }
