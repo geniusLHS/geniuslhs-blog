@@ -30,7 +30,7 @@ export default function Post() {
   return (
     <>
       <SubHeader title={phrases.Activity.title} description={phrases.Activity.description}></SubHeader>
-      <div className="pt-10 space-y-8">
+      <div className="pt-5 space-y-3">
         {posts.map((item) => (
           <PostItem {...item}></PostItem>
         ))}

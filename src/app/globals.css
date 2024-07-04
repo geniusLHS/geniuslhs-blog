@@ -9,6 +9,21 @@
   font-style: normal;
 }
 
+@font-face {
+  font-family: "NotoSerifKR";
+  src: url("https://fastly.jsdelivr.net/gh/projectnoonnu/noonfonts_two@1.0/NotoSerifKR.woff") format("woff");
+  font-weight: normal;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "NanumMyeongjo";
+  font-weight: 400;
+  font-style: normal;
+  src: url(https://cdn.jsdelivr.net/gh/webfontworld/naver/NanumMyeongjo.woff2) format("woff2");
+  font-display: swap;
+}
+
 body {
   margin: 0;
   font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen", "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue", sans-serif;
@@ -72,7 +87,7 @@ a,
 tr,
 td,
 th {
-  line-height: 180%;
+  line-height: 160%;
   /* letter-spacing: -0.75px; */
 }
 
@@ -120,20 +135,13 @@ a:focus {
 
 /* prose */
 
-.prose small {
-  font-size: 12px;
-}
-
 .prose {
   max-width: none;
+  font-size: 15px;
 }
 
-.prose h2 {
-  font-size: 1.7em;
-}
-
-.prose h3 {
-  font-size: 1.3em;
+.prose small {
+  font-size: 12px;
 }
 
 .prose a {
@@ -199,16 +207,28 @@ code[class*="language-"] ::selection {
   scroll-margin-top: 80px;
 }
 
+/* h1 안씀 */
 .prose h1 {
   line-height: 180%;
+  font-size: 2em;
+  margin: 15px 0px;
 }
 
 .prose h2 {
-  line-height: 200%;
+  line-height: 175%;
+  font-size: 1.7em;
+  margin: 15px 0px;
 }
 
 .prose h3 {
-  line-height: 220%;
+  line-height: 170%;
+  font-size: 1.3em;
+  margin: 15px 0px;
+}
+
+.prose h4 {
+  font-size: 1.1em;
+  margin: 15px 0px;
 }
 
 .prose h1 .anchor,
@@ -458,6 +478,7 @@ code[data-line-numbers] .line::before {
   overflow-x: auto !important;
   overflow-y: hidden;
   -webkit-overflow-scrolling: auto;
+  margin: -15px;
   /* display: none; */
 }
 

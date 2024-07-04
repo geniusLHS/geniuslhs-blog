@@ -32,7 +32,7 @@ export const metadata: Metadata = {
 export default function Home() {
   return (
     <>
-      <section className="pt-14 pb-14 border-b border-b-[#898ea4]">
+      <section className="pt-14 pb-10 border-b border-b-[#898ea4]">
         <div className="text-3xl font-bold pb-5">geniusLHS</div>
         <div className="text-lg">
           반갑습니다. 이현서입니다. <br />
