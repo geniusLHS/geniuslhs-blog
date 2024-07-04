@@ -51,10 +51,10 @@ export default async function PostLayout({ params }: Props) {
   return (
     <>
       <div className="text-center pt-8 pb-8 mb-4 border-b border-b-[#898ea4]">
-        <h1 className="text-4xl font-bold pb-5">{currentPost.title}</h1>
-        <p className="text-lg">{currentPost.description}</p>
+        <h1 className="text-3xl font-bold pb-3">{currentPost.title}</h1>
+        <p className="text-base pb-1">{currentPost.description}</p>
         <div className="text-gray-500">
-          <div className="flex flex-row justify-center items-center">
+          <div className="flex flex-row justify-center items-center text-sm">
             <LuCalendar className="mr-1" />
             {dayjs(currentPost.date).format("YYYY. MM. DD")}
 
