@@ -8,6 +8,7 @@ import remarkBreaks from "remark-breaks";
 import rehypePrettyCode from "rehype-pretty-code";
 import rehypeKatex from "rehype-katex";
 import remarkMath from "remark-math";
+import { readFileSync } from "fs";
 
 export const Post = defineDocumentType(() => ({
   name: "Post",
@@ -41,7 +42,13 @@ export default makeSource({
       [
         rehypePrettyCode,
         {
-          theme: "one-dark-pro",
+          theme: JSON.parse(readFileSync("./code_theme/atom-one-light.json", "utf-8")),
+          tokensMap: {
+            fn: "entity.name.function",
+            str: "string",
+            var: "variable.other.constant",
+            attr: "variable.other.readwrite",
+          },
         },
       ],
       [

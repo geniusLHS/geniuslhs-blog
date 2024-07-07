@@ -65,7 +65,7 @@ thumbnailUrl: /posts/nextjs-view-counter-with-supabase/supabase-logo.jpeg
   - Arguments: `page_pathname` (Type: `text`)
   - Definition:
 
-        ```sql
+        ```sql showLineNumbers
         DECLARE
           views_count BIGINT;
         BEGIN
@@ -88,7 +88,7 @@ thumbnailUrl: /posts/nextjs-view-counter-with-supabase/supabase-logo.jpeg
   - Arguments: `page_pathname` (Type: `text`), `user_ip` (Type: `text`)
   - Definition:
 
-    ```sql
+    ```sql showLineNumbers
     BEGIN
       IF EXISTS (SELECT 1 FROM analytics_ip WHERE ip = user_ip AND pathname = page_pathname AND visited_at >= now() - interval '1 day') THEN
           RETURN;
@@ -125,7 +125,7 @@ thumbnailUrl: /posts/nextjs-view-counter-with-supabase/supabase-logo.jpeg
 
 개발 환경에서는 경로 최상단에 `.env` 파일을 만들어 아래와 같이 입력합니다. 이때 `.gitignore` 파일에 `.env`를 추가하여 `service_role` key가 github에 업로드 되지 않도록 하세요.
 
-```python
+```python showLineNumbers title=".env"
 NEXT_PUBLIC_SUPABASE_URL=<your URL>
 NEXT_PUBLIC_SUPABASE_ANON_KEY=<anon_public_key>
 SUPABASE_SERVICE_ROLE_KEY=<service_role_key>
@@ -139,9 +139,7 @@ npm install @supabase/supabase-js
 
 3. `lib` 폴더에 두개의 파일 `supabase/public.ts`, `supabase/private.ts`를 생성합니다. 코드는 각각 아래와 같습니다.
 
-`lib/supabase/public.ts`
-
-```typescript
+```ts showLineNumbers title="lib/supabase/public.ts"
 import { createClient } from "@supabase/supabase-js";
 
 if (!process.env.NEXT_PUBLIC_SUPABASE_URL || !process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY) {
@@ -153,13 +151,11 @@ const publicClient = createClient(process.env.NEXT_PUBLIC_SUPABASE_URL, process.
 export default publicClient;
 ```
 
-`lib/supabase/private.ts`
-
-```ts
-import { createClient } from "@supabase/supabase-js";
+<br />
+```ts showLineNumbers title="lib/supabase/private.ts" import {createClient} from "@supabase/supabase-js";
 
 if (!process.env.NEXT_PUBLIC_SUPABASE_URL || !process.env.SUPABASE_SERVICE_ROLE_KEY) {
-  throw new Error("Missing env vars SUPABASE_URL or SUPABASE_SERVICE_ROLE_KEY");
+throw new Error("Missing env vars SUPABASE_URL or SUPABASE_SERVICE_ROLE_KEY");
 }
 
 const privateClient = createClient(process.env.NEXT_PUBLIC_SUPABASE_URL, process.env.SUPABASE_SERVICE_ROLE_KEY);
@@ -169,7 +165,7 @@ export default privateClient;
 
 4. 서버에서 조회수 관련 요청을 처리하기 위한 [Route Handler](https://nextjs.org/docs/app/building-your-application/routing/route-handlers)를 만들 것입니다. `/api/views` 엔드포인트로의 요청을 처리하기 위해 `app/api/views/route.ts` 파일을 생성하고 다음과 같이 입력합니다.
 
-```ts
+```ts showLineNumbers title="app/api/views/route.ts"
 import supabase from "@/lib/supabase/private";
 import { NextResponse, NextRequest } from "next/server";
 
@@ -217,7 +213,7 @@ export async function POST(request: NextRequest) {
 
 1. 주어진 페이지 경로의 조회수를 얻고 싶다면 쿼리스트링 형식으로 정보를 담아서 GET 요청을 보내면 됩니다. 저는 간편한 data fetch를 위해 [swr](https://swr.vercel.app/ko) 라이브러리를 사용했습니다. `useSWR`을 사용하면 사용자가 페이지를 다시 포커스 했을 때 자동으로 데이터가 갱신됩니다.
 
-```tsx
+```tsx showLineNumbers {8}
 import useSWR from "swr";
 
 interface Props {
@@ -233,7 +229,7 @@ export const PostViews = ({ pathname }: Props) => {
 
 2. 사용자가 페이지를 조회했다면 JSON 형식으로 해당 정보를 담아 POST 요청을 보내면 됩니다.
 
-```tsx
+```tsx showLineNumbers {11-19}
 "use client";
 
 import { useEffect } from "react";
@@ -242,7 +238,7 @@ interface Props {
   pathname: string;
 }
 
-export const PostViewss = ({ pathname }: Props) => {
+export const PostViews = ({ pathname }: Props) => {
   useEffect(() => {
     const res = fetch("/api/views", {
       method: "POST",
