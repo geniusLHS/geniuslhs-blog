@@ -15,17 +15,11 @@ export default function sitemap(): MetadataRoute.Sitemap {
       changeFrequency: "weekly",
       priority: 0.8,
     },
-    {
-      url: "https://geniuslhs.com/activity",
-      lastModified: new Date(),
-      changeFrequency: "weekly",
-      priority: 0.8,
-    },
   ];
 
   let dynamicSiteMap: MetadataRoute.Sitemap = allPosts.map((post) => {
     return {
-      url: `https://geniuslhs.com/${post.category === "Blog" ? "blog" : "activity"}/${post.slug}`,
+      url: `https://geniuslhs.com/blog/${post.slug}`,
       lastModified: new Date(post.date),
       changeFrequency: "monthly",
       priority: 0.64,

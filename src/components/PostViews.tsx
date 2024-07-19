@@ -5,13 +5,13 @@ import { useEffect, useState } from "react";
 import { LuEye, LuCalendar } from "react-icons/lu";
 
 interface Props {
-  category: string;
   slug: string;
   isVisit: boolean;
+  className?: string;
 }
 
-export const PostViews = ({ category, slug, isVisit }: Props) => {
-  const { data, error, isLoading } = useSWR(`/api/views?pathname=${encodeURIComponent(`/${category}/${slug}`)}`, (url) => fetch(url).then((r) => r.json()));
+export const PostViews = ({ slug, isVisit, className }: Props) => {
+  const { data, error, isLoading } = useSWR(`/api/views?pathname=${encodeURIComponent(`/blog/${slug}`)}`, (url) => fetch(url).then((r) => r.json()));
 
   useEffect(() => {
     const res = isVisit
@@ -21,16 +21,16 @@ export const PostViews = ({ category, slug, isVisit }: Props) => {
             "Content-Type": "application/json",
           },
           body: JSON.stringify({
-            pathname: `/${category}/${slug}`,
+            pathname: `/blog/${slug}`,
           }),
         })
       : null;
   }, []);
 
   return (
-    <>
-      <LuEye className="ml-4 mr-1" />
+    <div className={className}>
+      <LuEye className="mr-1 inline" />
       {!error && data ? data.views : "-"}
-    </>
+    </div>
   );
 };

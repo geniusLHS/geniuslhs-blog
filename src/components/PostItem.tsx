@@ -12,8 +12,8 @@ import { PostViews } from "./PostViews";
 const PostItem = (post: Post) => {
   return (
     <Link
-      href={post.category.toLowerCase() + "/" + post.slug}
-      className="flex flex-nowrap w-full rounded-lg transition-all p-2 items-center bg-[#f8f8f8] hover:hover:bg-[#efefef]"
+      href={"blog/" + post.slug}
+      className="flex flex-nowrap no-underline w-full rounded-lg transition-all p-2 items-center bg-[#f8f8f8] hover:hover:bg-[#efefef]"
     >
       <div className="flex flex-col flex-nowrap items-start flex-1">
         <div className="text-lg font-bold">{post.title}</div>
@@ -21,9 +21,9 @@ const PostItem = (post: Post) => {
         <div className="text-xs mt-1 text-slate-500">
           <div className="flex flex-row justify-center items-center">
             <LuCalendar className="mr-1 -mt-0.5" height="0.777em" />
-            {dayjs(post.date).format("YYYY. MM. DD")}
+            {dayjs(post.date).format("YYYY. MM. DD.")}
 
-            <PostViews category={post.category.toLowerCase()} slug={post.slug} isVisit={false}></PostViews>
+            <PostViews slug={post.slug} isVisit={false}></PostViews>
           </div>
         </div>
       </div>

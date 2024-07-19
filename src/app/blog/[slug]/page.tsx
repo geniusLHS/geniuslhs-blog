@@ -7,6 +7,9 @@ import dayjs from "dayjs";
 import { LuEye, LuCalendar } from "react-icons/lu";
 import { PostViews } from "@/components/PostViews";
 import Comments from "@/components/Comments";
+import Link from "next/link";
+import Image from "next/image";
+import LogoIcon from "public/favicon.ico";
 
 interface Props {
   params: {
@@ -21,7 +24,7 @@ export const generateStaticParams = async () => {
 };
 
 export async function generateMetadata({ params }: Props, parent: ResolvingMetadata): Promise<Metadata> {
-  const currentPost = allPosts.find((post) => post._raw.sourceFileName.split(".mdx")[0] === params.slug && post.category == "Blog");
+  const currentPost = allPosts.find((post) => post._raw.sourceFileName.split(".mdx")[0] === params.slug);
 
   // optionally access and extend (rather than replace) parent metadata
   // const previousImages = (await parent).openGraph?.images || [];
@@ -42,7 +45,7 @@ export async function generateMetadata({ params }: Props, parent: ResolvingMetad
 }
 
 export default async function PostLayout({ params }: Props) {
-  const currentPost = allPosts.find((post) => post.slug === params.slug && post.category == "Blog");
+  const currentPost = allPosts.find((post) => post.slug === params.slug);
 
   if (!currentPost) {
     notFound();
@@ -52,15 +55,26 @@ export default async function PostLayout({ params }: Props) {
 
   return (
     <>
-      <div className="text-center pt-8 pb-8 mb-4 border-b border-b-[#898ea4]">
-        <h1 className="text-3xl font-bold pb-3">{currentPost.title}</h1>
+      <section className="pt-3 md:pt-6 pb-6">
+        <div className="text-lg">
+          <Link href="/" className="">
+            <Image src={LogoIcon} alt="logo" width={20} height={20} className="inline mr-2" />
+            geniusLHS
+          </Link>{" "}
+          <Link href="/blog" className="">
+            블로그
+          </Link>
+        </div>
+      </section>
+      <div className="pb-4 mb-4">
+        <h1 className="text-xl font-bold text-black pt-2 pb-1">{currentPost.title}</h1>
         <p className="text-base pb-1">{currentPost.description}</p>
         <div className="text-gray-500">
-          <div className="flex flex-row justify-center items-center text-sm">
+          <div className="flex flex-row justify-start items-center text-sm">
             <LuCalendar className="mr-1" />
-            {dayjs(currentPost.date).format("YYYY. MM. DD")}
+            {dayjs(currentPost.date).format("YYYY. MM. DD.")}
 
-            <PostViews category={"blog"} slug={params.slug} isVisit={true}></PostViews>
+            <PostViews className="ml-4" slug={params.slug} isVisit={true}></PostViews>
           </div>
         </div>
       </div>

@@ -40,30 +40,6 @@ export default function Header() {
           Activity
         </Link>
       </div>
-      {/* {isMobileWidth ? (
-          <>
-            <div className={`${styles.mobileCategoryBack} ${isOpen ? styles.blurOn : ''}`} onClick={isClickOuter}></div>
-            <div className={`${styles.menu} ${isOpen ? styles.menuOpen : ''}`}>
-              <div className={styles.mobileCategoryWrapper}>
-                <h3>
-                  <Link href="/" className={upperPath === '' ? styles.currentPage : ''}>
-                    Home
-                  </Link>
-                </h3>
-                <h3>
-                  <Link href="/blog" className={upperPath === 'project' ? styles.currentPage : ''}>
-                    Blog
-                  </Link>
-                </h3>
-                <h3>
-                  <Link href="/activity" className={upperPath === 'post' ? styles.currentPage : ''}>
-                    Activity
-                  </Link>
-                </h3>
-              </div>
-            </div>
-          </>
-        ) : undefined} */}
       <div className="ml-auto flex gap-2 items-center"></div>
     </nav>
   );
