@@ -40,10 +40,10 @@ export const Blog = ({ posts, tags }: Props) => {
         <span className="px-2 no-underline hover:underline hover:cursor-pointer" onClick={() => setTag("")}>
           All
         </span>
-        {tags.map((tag, index) => (
-          <span className="px-2 no-underline hover:underline hover:cursor-pointer" onClick={() => setTag(tag)}>
-            {tag}
-          </span>
+        {tags.map((_tag, index) => (
+          <a className={"px-2 hover:underline hover:cursor-pointer" + (tag === _tag ? " underline" : " no-underline")} onClick={() => setTag(_tag)}>
+            {_tag}
+          </a>
         ))}
       </div>
       <div className="flex flex-col gap-0 p-1 group">
