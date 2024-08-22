@@ -46,15 +46,15 @@ export const Blog = ({ posts, tags }: Props) => {
           </a>
         ))}
       </div>
-      <div className="flex flex-col gap-0 p-1 group">
+      <div className="flex flex-col gap-0 p-1">
         {postsSplitByYear.map((posts, index) => (
-          <div className="flex flex-row pt-3 w-full group">
+          <div className="flex flex-row pt-3 w-full">
             <div className="w-20 md:w-32 p-2">{dayjs(posts[0].date).format("YYYY")}</div>
-            <div className="flex flex-col w-full">
+            <div className="flex flex-col w-full group">
               {posts.map((post, index) => (
                 <Link
                   href={"blog/" + post.slug}
-                  className="no-underline flex flex-row justify-between w-full rounded-lg transition-all py-2 group-hover:opacity-40 hover:!opacity-100"
+                  className="pl-2 no-underline flex flex-row justify-between w-full rounded-lg transition-all py-2 group-hover:opacity-40 hover:!opacity-100"
                 >
                   <div className="text-base">{post.title}</div>
                   <div className="flex flex-col md:flex-row ml-2">
