@@ -19,23 +19,26 @@ thumbnailUrl: /posts/khj-calculus-2-advanced-problems/thumbnail-2.png
 
 우선 문제를 풀 때는 저번과 마찬가지로 태블릿을 사용했습니다. 그런데 저번처럼 손글씨를 그대로 pdf로 바꿔서 풀이집을 게재하는 것 말고 새로운 도전을 해보고 싶더군요. 바로 조판 소프트웨어를 사용해 문서화 시키는 것입니다. 저는 조판 소프트웨어로 [typst](https://typst.app/)를 선택했습니다.
 
-![typst 소개 사진](/posts/khj-calculus-2-advanced-problems/typst-소개-사진.png)
+![typst](/posts/khj-calculus-2-advanced-problems/typst-소개-사진.png)
 
 저는 9월 초에 typst를 처음 접한 이후로 학교 수학 과제를 작성할 때 몇 번 사용해봤습니다. 이전까지는 LaTeX밖에 써본적이 없었는데, typst 랜딩 페이지를 훑어본 결과 훨씬 간편하고 간결할 것 같다는 생각이 들었기 때문입니다. 그리고 typst를 사용함에 따라서 그러한 생각은 확신으로 바뀌어갔습니다. 제가 생각하는 typst의 장점은 다음과 같습니다.
 
 #### 1. 간단한 수식 작성
 
-![typst 간단한 수식 작성](/posts/khj-calculus-2-advanced-problems/typst-간단한-수식-작성.png)
+![간단한 수식 작성](/posts/khj-calculus-2-advanced-problems/typst-간단한-수식-작성.png)
+
 일단 수식을 작성하는 것이 굉장히 간편합니다. LaTeX의 경우 역슬래시를 사용해서 각 문자들을 표현하지만, typst에서는 그럴 필요 없이 단어를 통해 바로 문자를 입력할 수 있습니다. 또한 LaTeX에서는 여러 종류의 화살표를 사용할 때 `\leftarrow`, `\rightrightarrows`, `\circlearrowright` 등 불규칙한 이름을 가지는 반면 typst에서는 `arrow.l`, `arrow.double`, `arrow.cw` 등 같은 `arrow` 범주에 묶여있어 문자를 찾기가 더욱 편합니다. 분수를 작성할 때도 `\frac` 같은 명령어 필요 없이 그냥 `A/B`처럼 쓰면 알아서 처리해줍니다. 이러한 장점은 코드로 적혀있는 수식을 읽을 때 가독성을 더욱 높여줍니다.
 
 #### 2. 굉장히 빠른 컴파일
 
-![typst 빠른 컴파일](/posts/khj-calculus-2-advanced-problems/typst-빠른-컴파일.png)
+![typst 온라인 편집기 화면](/posts/khj-calculus-2-advanced-problems/typst-빠른-컴파일.png)
+
 위 사진은 typst에서 무료로 제공해주는 온라인 편집기입니다. LaTeX에서의 `Overleaf`와 비슷한 위치에 있다고 생각하면 될 것 같습니다. 제 기억이 맞다면 Overleaf를 통한 컴파일은 적어도 몇 초가 소요됩니다. 반면 typst에서는 컴파일이 정말 눈 깜짝할 새에 완료됩니다. 즉, 왼쪽에서 글자를 입력함과 동시에 오른쪽에서 미리보기가 가능합니다. 겨우 몇 초 차이지만 수식을 작성함에 있어 바로바로 볼 수 있다는 것은 정말 큰 장점이었습니다. (제가 최근에 LaTeX를 사용해본적이 없어서 컴파일이 몇 초 이상 걸린다는게 사실이 아닐수도 있습니다. 아무리 검색해봐도 한글 폰트가 적용이 안돼서 포기했거든요...)
 
 #### 3. 진짜 프로그래밍 하는 느낌이 듦
 
-![typst 프로그래밍 하는 느낌](/posts/khj-calculus-2-advanced-problems/typst-프로그래밍-하는-느낌.png)
+![typst 온라인 편집기 화면](/posts/khj-calculus-2-advanced-problems/typst-프로그래밍-하는-느낌.png)
+
 이건 그냥 개인적인 생각인데, 진짜 프로그래밍을 하는 것 같은 느낌이 납니다. LaTeX는 역슬래시 때문에 html같은 마크업 언어의 느낌이 강하게 나는데 반해 typst에서 프로그래밍을 할 때는 python과 진짜 비슷하다는 느낌을 많이 받았습니다. 위 사진에서도 `for i in range(1,N)` 같이 python과 유사한 문법을 사용하고 있습니다. 물론 저는 프로그래밍만 해봤지 LaTeX를 익숙하게 다뤄본 적이 없는 사람이기 때문에 신빙성은 없습니다.
 
 다만 단점이라면, 개인 프로젝트에는 자유롭게 쓸 수 있겠지만 표준이 정해진 논문 등에는 사용할 수 없을 것 같습니다. 아무튼 여러분들도 typst 사용하고 광명 찾으시기 바랍니다.
@@ -62,7 +65,7 @@ thumbnailUrl: /posts/khj-calculus-2-advanced-problems/thumbnail-2.png
 
 그러나 이것이 이 문제의 답이라고 할 수 없는게, 저자는 이미 부록에서 변분법과 최단강하선 문제를 다루었습니다. 똑같은 답이라면 굳이 이 문제를 낼 필요가 없을 것입니다. 그렇게 저는 답을 찾기 위해 열심히 인터넷 검색을 하다가 **brachistochrone problem with friction**(마찰력이 있는 최단강하선 문제) 라는 키워드를 찾았습니다. 그리고 신기하게도 마찰력이 있는 경우에도 곡선의 방정식을 정확히 계산해낼 수 있었습니다.
 
-![최단강하선 문제 그림](/posts/khj-calculus-2-advanced-problems/최단강하선-문제-그림-2.png)
+![상황 분석](/posts/khj-calculus-2-advanced-problems/최단강하선-문제-그림.png)
 
 {/* <img src="/posts/khj-calculus-2-advanced-problems/최단강하선-문제-그림.png" alt="최단강하선 문제 그림" height="10pt" /> */}
 
@@ -153,7 +156,7 @@ $$
 
 를 얻습니다. 마찰력 $\mu$의 값에 따른 곡선의 모양은 다음과 같습니다.
 
-![최단강하선 문제 그래프](/posts/khj-calculus-2-advanced-problems/최단강하선-문제-그래프-3.png)
+![마찰력 μ의 값에 따른 곡선의 모양](/posts/khj-calculus-2-advanced-problems/최단강하선-문제-그래프.png)
 
 한 가지 흥미로운 점은 곡선을 어떻게 긋더라도 물체는 절대로 $y+\mu x>0$ 인 곳으로 갈 수 없다는 것입니다. 일단 원점에서 곡선의 기울기가 $-\mu$ 보다 크다면 (즉, 더 완만하다면) 물체는 정지마찰력에 의해 움직이지 않습니다. 따라서 물체가 일단 움직이려면 $y+\mu x<0$ 인 영역으로 움직여야 합니다. 그런데 아까 얻은 식 $gy+\mu gx+\frac{1}{2}v^2=0$ 에 의하면 $v^2>0$이므로 항상 $y+\mu x<0$ 입니다. 다시 말해 물체는 직선 $y+\mu x=0$ 에 닿을수는 있어도 절대로 넘어갈 수 없다는 것입니다.
 
@@ -163,7 +166,7 @@ $$
 
 이 문제도 수식이 없는 문제입니다. 따라서 상황 해석부터 설정까지 전부 제가 해야 합니다. (개인적으로 이런 문제가 재밌는 것 같습니다.)
 
-![일조량 문제 그림](/posts/khj-calculus-2-advanced-problems/일조량-문제-그림-2.png)
+![상황 분석](/posts/khj-calculus-2-advanced-problems/일조량-문제-그림.png)
 
 위 그림처럼 천동설로 생각해도 무방합니다. 또한 지구는 자전축이 기울어져 있습니다. 계산을 간단하게 하기 위해 지구는 그대로 두고 태양의 궤도를 자전축 기울기 $\phi$만큼 $x$축 기준으로 회전합시다. 지구 반지름은 $1$, 태양의 궤도 반지름은 $R$로 두었습니다.
 
@@ -229,7 +232,7 @@ ylabel('I_y(\varphi)');
 
 이 코드를 통해 다음의 그래프를 얻을 수 있습니다.
 
-![일조량 문제 그래프](/posts/khj-calculus-2-advanced-problems/일조량-문제-그래프.png)
+![위도에 따른 일조량 그래프](/posts/khj-calculus-2-advanced-problems/일조량-문제-그래프.png)
 
 따라서 $\varphi=\pi/2$일 때, 즉 적도에서 가장 일조량이 큽니다. 개인적으로는 위도가 $0$이 아닌 곳이 나오기를 기대했는데 좀 아쉬웠습니다. 한 가지 흥미로운 점이 있다면, 지구의 자전축 기울기 $\phi$ 값이 커짐에 따라 '적도'가 아닌 '극'(남극, 북극)에서의 일조량이 점점 커집니다. 대략 $\phi=0.94066684 \, \mathrm{rad}$를 기점으로 일조량의 최댓값이 적도에서 극으로 옮겨가는데, 이 값을 닫힌 꼴로 구할 수 있을지 궁금합니다.
 
