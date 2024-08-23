@@ -67,8 +67,8 @@ export default async function PostLayout({ params }: Props) {
         </div>
       </section>
       <div className="pb-4 mb-4 flex flex-col items-center gap-1">
-        <h1 className="text-3xl font-semibold text-black pt-2 pb-1">{currentPost.title}</h1>
-        <p className="text-lg pb-1">{currentPost.description}</p>
+        <h1 className="text-3xl font-semibold text-black pt-2 pb-1 text-center">{currentPost.title}</h1>
+        <p className="text-lg pb-1 text-center">{currentPost.description}</p>
         <div className="text-gray-500">
           <div className="flex flex-row justify-start items-center text-sm">
             <LuCalendar className="mr-1" />
