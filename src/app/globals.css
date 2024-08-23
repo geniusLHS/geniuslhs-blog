@@ -2,12 +2,7 @@
 @tailwind components;
 @tailwind utilities;
 
-@font-face {
-  font-family: "Pretendard-Regular";
-  src: url("https://cdn.jsdelivr.net/gh/Project-Noonnu/noonfonts_2107@1.1/Pretendard-Regular.woff") format("woff");
-  font-weight: 400;
-  font-style: normal;
-}
+@import url("https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard-dynamic-subset.min.css");
 
 body {
   margin: 0;
@@ -58,8 +53,9 @@ a:hover {
 
 .prose {
   max-width: none;
-  font-size: 15px;
-  line-height: 160%;
+  font-size: 1rem;
+  line-height: 165%;
+  /* font-weight: 300; */
 }
 
 .prose small {
@@ -96,24 +92,28 @@ a:hover {
 .prose h1 {
   line-height: 180%;
   font-size: 2em;
-  margin: 15px 0px;
+  margin: 1.5rem 0px;
+  font-weight: 800;
 }
 
 .prose h2 {
   line-height: 120%;
-  font-size: 1.3em;
-  margin: 15px 0px;
+  font-size: 1.5em;
+  margin: 1.5rem 0px;
+  font-weight: 600;
 }
 
 .prose h3 {
   line-height: 110%;
-  font-size: 1.1em;
-  margin: 15px 0px;
+  font-size: 1.25em;
+  margin: 1.5rem 0px;
+  font-weight: 600;
 }
 
 .prose h4 {
-  font-size: 1em;
-  margin: 15px 0px;
+  font-size: 1.1rem;
+  margin: 1.5rem 0px;
+  font-weight: 600;
 }
 
 .prose h1 .anchor,
@@ -149,11 +149,16 @@ a:hover {
   /* border: 1px solid var(--background-neutral-color);  */
 }
 
-/* 나중에 필요할 때 써먹어보자 */
 .prose p:not(.prose li > p) {
   /* text-wrap: balance; */
   word-break: keep-all;
-  margin: 15px 0px;
+  margin: 1.5rem 0px;
+}
+
+.prose li > p {
+  /* text-wrap: balance; */
+  word-break: keep-all;
+  margin: 1rem 0px;
 }
 
 .prose h1 + p,
@@ -230,7 +235,7 @@ a:hover {
 }
 
 .prose .anchor {
-  font-weight: 700;
+  /* font-weight: 700; */
   text-decoration: none !important;
   color: #222;
 }

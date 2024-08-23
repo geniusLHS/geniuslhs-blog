@@ -4,9 +4,7 @@ module.exports = {
   theme: {
     extend: {
       fontFamily: {
-        sans: "Pretendard-Regular",
-        serif: "NotoSerifKR",
-        myeongjo: "NanumMyeongjo",
+        sans: ["Pretendard"],
       },
     },
   },
