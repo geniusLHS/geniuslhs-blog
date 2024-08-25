@@ -37,7 +37,7 @@ export const Blog = ({ posts, tags }: Props) => {
   return (
     <>
       <div className="flex flex-row px-1 py-1 flex-wrap">
-        <span className="px-2 no-underline hover:underline hover:cursor-pointer" onClick={() => setTag("")}>
+        <span className="px-2 no-underline hover:underline underline-offset-2 hover:cursor-pointer" onClick={() => setTag("")}>
           All
         </span>
         {tags.map((_tag, index) => (
