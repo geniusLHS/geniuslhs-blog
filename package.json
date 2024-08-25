@@ -41,7 +41,7 @@
     "@tailwindcss/typography": "^0.5.9",
     "rehype-autolink-headings": "^6.1.1",
     "rehype-katex": "^6.0.3",
-    "rehype-pretty-code": "^0.10.0",
+    "rehype-pretty-code": "^0.13.2",
     "rehype-slug": "^5.1.0",
     "remark-breaks": "^3.0.3",
     "remark-gfm": "^3.0.1",

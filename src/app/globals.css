@@ -75,7 +75,7 @@ a:hover {
 
 .prose hr {
   margin: 25px 0px;
-  border-top: 1px dashed #ccc;
+  border-top: 1px solid #ccc;
   border-bottom: 0;
 }
 
@@ -193,7 +193,7 @@ a:hover {
   margin-block-end: 1em;
   margin-inline-start: 0px;
   margin-inline-end: 0px;
-  padding-inline-start: 40px;
+  padding-inline-start: 20px;
 
   /* text-wrap: balance; */
   word-break: keep-all;
@@ -250,7 +250,7 @@ a:hover {
 
 .prose pre > code {
   display: grid;
-  font-size: 11.85px;
+  font-size: 13px;
 }
 
 /* Fenced Code block - hide horizontal scrollbar: webkit */
@@ -297,6 +297,23 @@ a:hover {
         pl-[calc(0.5rem-2px)] md:pl-[calc(1rem-2px)];
 }
 
+/* {n}#minus, {n}#plus */
+.prose code span[data-highlighted-line][data-highlighted-line-id="minus"] {
+  @apply relative bg-red-100 border-red-400;
+}
+
+.prose code span[data-highlighted-line][data-highlighted-line-id="minus"]::before {
+  @apply text-red-500 content-["-"] top-0 left-0 absolute pl-[0.3rem];
+}
+
+.prose code span[data-highlighted-line][data-highlighted-line-id="plus"] {
+  @apply relative bg-green-100 border-green-400;
+}
+
+.prose code span[data-highlighted-line][data-highlighted-line-id="plus"]::before {
+  @apply text-green-500 content-["+"] top-0 left-0 absolute pl-[0.3rem];
+}
+
 /* Fenced Code block - word highlight */
 .prose span[data-highlighted-chars] {
   @apply bg-teal-400  bg-opacity-25;
@@ -309,10 +326,10 @@ a:hover {
 }
 
 /* Fenced Code block - with title style*/
-.prose div[data-rehype-pretty-code-title] {
+.prose figcaption[data-rehype-pretty-code-title] {
   @apply px-3 py-1 font-mono text-sm font-semibold text-gray-800 bg-[#eee] border border-b-0 border-[#eee] rounded-t-lg;
 }
-.prose div[data-rehype-pretty-code-title] + pre {
+.prose figcaption[data-rehype-pretty-code-title] + pre {
   @apply mt-0 rounded-t-none;
 }
 /* latex */

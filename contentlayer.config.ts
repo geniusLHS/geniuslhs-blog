@@ -23,7 +23,7 @@ export const Post = defineDocumentType(() => ({
       required: true,
     },
     description: { type: "string", required: true },
-    thumbnailUrl: { type: "string", required: true },
+    thumbnailUrl: { type: "string" },
   },
   computedFields: {
     // url: { type: 'string', resolve: (post) => `/posts/${post._raw.flattenedPath}` },
@@ -44,7 +44,7 @@ export default makeSource({
       rehypeSlug, // 슬러그(slug) 생성을 위한 플러그인
       rehypeKatex,
       [
-        rehypePrettyCode,
+        rehypePrettyCode as any,
         {
           theme: JSON.parse(readFileSync("./code_theme/atom-one-light.json", "utf-8")),
           tokensMap: {

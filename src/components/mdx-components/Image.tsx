@@ -8,7 +8,7 @@ export const Image = ({ ...props }: ImageProps) => {
 
   return (
     <>
-      <img src={src} alt={alt} className="mb-0 mt-8 rounded-md" />
+      <img src={src} alt={alt} className="mb-0 mt-8 rounded-md border" />
       {alt !== "" && <span className="mb-6 mt-2 block w-full text-center text-sm text-gray-500 dark:text-gray-400">{alt}</span>}
     </>
   );
