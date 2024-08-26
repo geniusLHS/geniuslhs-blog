@@ -27,7 +27,7 @@ const PostItem = (post: Post) => {
           </div>
         </div>
       </div>
-      <Image src={post.thumbnailUrl} className="rounded-lg m-1 thumbnail" alt="thumbnail" width={70} height={70} />
+      <Image src={post.thumbnailUrl ?? ""} className="rounded-lg m-1 thumbnail" alt="thumbnail" width={70} height={70} />
     </Link>
   );
 };
