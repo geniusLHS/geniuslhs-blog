@@ -17,6 +17,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
           crossOrigin="anonymous"
         />
         <meta name="google-site-verification" content="esf9ytGOvWiFwjel19LqLBiRCOz5e_Wn1gv8JEFQJPg" />
+        <script src="https://player.vimeo.com/api/player.js"></script>
       </head>
       <body>
         <div className="py-8 sm:py-12 font-sans px-4 bg-[#fdfdfd] min-h-screen">
