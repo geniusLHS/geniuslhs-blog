@@ -4,7 +4,7 @@ module.exports = {
   theme: {
     extend: {
       fontFamily: {
-        pretendard: ["Pretendard"],
+        pretendard: ["Pretendard", "Pretendard-Mobile"],
       },
     },
   },
