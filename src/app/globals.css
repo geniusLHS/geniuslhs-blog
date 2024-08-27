@@ -100,20 +100,20 @@ a:hover {
   line-height: 120%;
   font-size: 1.5em;
   margin: 1.5rem 0px;
-  font-weight: 600;
+  @apply font-semibold;
 }
 
 .prose h3 {
   line-height: 110%;
   font-size: 1.25em;
   margin: 1.5rem 0px;
-  font-weight: 600;
+  @apply font-semibold;
 }
 
 .prose h4 {
   font-size: 1.1rem;
   margin: 1.5rem 0px;
-  font-weight: 600;
+  @apply font-semibold;
 }
 
 .prose h1 .anchor,
