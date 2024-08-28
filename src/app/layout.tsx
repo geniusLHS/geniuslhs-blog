@@ -20,7 +20,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <script src="https://player.vimeo.com/api/player.js"></script>
       </head>
       <body>
-        <div className="py-8 sm:py-1 font-pretendard px-4 bg-[#fdfdfd] min-h-screen">
+        <div className="py-8 sm:py-12 font-pretendard px-4 bg-[#fdfdfd] min-h-screen">
           <div className="max-w-3xl mx-auto w-full">
             <main>{children}</main>
             <Analytics />
