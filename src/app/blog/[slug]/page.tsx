@@ -31,11 +31,11 @@ export async function generateMetadata({ params }: Props, parent: ResolvingMetad
 
   return {
     metadataBase: new URL("https://geniuslhs.com"),
-    title: currentPost?.title ?? "geniusLHS - 블로그",
-    description: currentPost?.description ?? "개인적인 작업과 생각들을 적어놓습니다.",
+    title: currentPost?.title ?? "geniusLHS",
+    description: currentPost?.description ?? "이현서 개발 블로그",
     openGraph: {
-      title: currentPost?.title ?? "geniusLHS - 블로그",
-      description: currentPost?.description ?? "개인적인 작업과 생각들을 적어놓습니다.",
+      title: currentPost?.title ?? "geniusLHS",
+      description: currentPost?.description ?? "이현서 개발 블로그",
       images: ["https://github.com/geniusLHS/geniuslhs-blog/blob/main/public/image/geniuslhs-og.png?raw=true"],
       url: "https://geniuslhs.com/blog/" + currentPost?.slug,
       type: "website",

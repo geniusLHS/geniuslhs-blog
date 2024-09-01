@@ -26,10 +26,10 @@ let ProjectItems = [
 
 export const metadata: Metadata = {
   title: "geniusLHS",
-  description: "게임 개발, 웹/앱 개발, 정보 보안에 관심을 가지고 있는 개발자 이현서입니다.",
+  description: "이현서 개발 블로그",
   openGraph: {
     title: "geniusLHS",
-    description: "게임 개발, 웹/앱 개발, 정보 보안에 관심을 가지고 있는 개발자 이현서입니다.",
+    description: "이현서 개발 블로그",
     images: ["https://github.com/geniusLHS/geniuslhs-blog/blob/main/public/image/geniuslhs-og.png?raw=true"],
     url: "https://geniuslhs.com",
     type: "website",

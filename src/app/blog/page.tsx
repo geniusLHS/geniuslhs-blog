@@ -12,11 +12,11 @@ import { LuCalendar } from "react-icons/lu";
 import { Blog } from "@/components/Blog";
 
 export const metadata: Metadata = {
-  title: "geniusLHS - 블로그",
-  description: "개인적인 작업과 생각들을 적어놓습니다.",
+  title: "geniusLHS",
+  description: "이현서 개발 블로그",
   openGraph: {
-    title: "geniusLHS - 블로그",
-    description: "개인적인 작업과 생각들을 적어놓습니다.",
+    title: "geniusLHS",
+    description: "이현서 개발 블로그",
     images: ["https://github.com/geniusLHS/geniuslhs-blog/blob/main/public/image/geniuslhs-og.png?raw=true"],
     url: "https://geniuslhs.com/blog/",
     type: "website",
