@@ -13,8 +13,8 @@ let ProjectItems = [
     href: "https://store.steampowered.com/app/1983540/Symmetry_Lines/",
     date: "2021.12",
   },
-  { name: "TORP", explain: "종단간 암호화를 제공하는 채팅 서비스", src: "torp.png", href: "https://torp.geniuslhs.com", date: "2022.12" },
-  { name: "OMOK", explain: "일대일 대결에 특화된 온라인 오목 서비스", src: "omok.png", href: "https://omok.geniuslhs.com", date: "2023.05" },
+  // { name: "TORP", explain: "종단간 암호화를 제공하는 채팅 서비스", src: "torp.png", href: "https://torp.geniuslhs.com", date: "2022.12" },
+  // { name: "OMOK", explain: "일대일 대결에 특화된 온라인 오목 서비스", src: "omok.png", href: "https://omok.geniuslhs.com", date: "2023.05" },
   {
     name: "Interactive React Hooks Quiz",
     explain: "리액트 훅의 개념을 상호작용 가능한 퀴즈와 함께 학습할 수 있는 웹사이트",
