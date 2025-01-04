@@ -10,6 +10,7 @@ import Comments from "@/components/Comments";
 import Link from "next/link";
 import Image from "next/image";
 import LogoIcon from "public/favicon.ico";
+import MDXLayoutClient from "./MDXLayoutClient";
 
 interface Props {
   params: {
@@ -79,7 +80,7 @@ export default async function PostLayout({ params }: Props) {
         </div>
       </div>
       <article className="w-full prose">
-        <MDXLayout components={postComponents} />
+        <MDXLayoutClient code={currentPost.body.code} />
       </article>
       <Comments repo="geniusLHS/geniuslhs-blog" repoId="R_kgDOJ5C_5A" category="Announcements" categoryId="DIC_kwDOJ5C_5M4CdovT" />
     </>
