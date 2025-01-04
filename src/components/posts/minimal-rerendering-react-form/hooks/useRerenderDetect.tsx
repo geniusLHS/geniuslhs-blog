@@ -5,7 +5,7 @@ import { useEffect, useRef, useState } from "react";
 export default function useRenderNotifyAnchor() {
   const [elementRef, setElementRef] = useState<HTMLElement | null>(null);
 
-  const timeoutRef = useRef<ReturnType<typeof setTimeout>>();
+  const timeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
   const rerenderCountRef = useRef(0);
 
   useEffect(() => {
