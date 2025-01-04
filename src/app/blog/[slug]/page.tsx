@@ -52,8 +52,6 @@ export default async function PostLayout({ params }: Props) {
     notFound();
   }
 
-  const MDXLayout = getMDXLayout(currentPost.body.code);
-
   return (
     <>
       <section className="pt-3 md:pt-6 pb-6">

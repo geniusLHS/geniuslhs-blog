@@ -1,0 +1,561 @@
+---
+title: 리액트 폼 컴포넌트의 리렌더링 최소화하기
+date: 2025-01-03
+tag:
+  - Programming
+description: 단순한 폼에서 시작해 useContext, Redux로 최적화해보자
+---
+
+import Basic from "@/components/posts/minimal-rerendering-react-form/containers/Basic";
+import WithContextAPI from "@/components/posts/minimal-rerendering-react-form/containers/WithContextAPI";
+import DependWithUseEffect from "@/components/posts/minimal-rerendering-react-form/containers/DependWithUseEffect";
+import DependWithSetState from "@/components/posts/minimal-rerendering-react-form/containers/DependWithSetState";
+import DependWithUseReducer from "@/components/posts/minimal-rerendering-react-form/containers/DependWithUseReducer";
+import WithRedux from "@/components/posts/minimal-rerendering-react-form/containers/WithRedux";
+import WithReduxAndReducer from "@/components/posts/minimal-rerendering-react-form/containers/WithReduxAndReducer";
+
+## 개요
+
+리액트를 사용해 개발을 하다 보면 여러 개의 정보를 수정할 수 있는 폼을 만들어야 하는 경우가 많습니다. 이때 자바스크립트의 객체(Object)를 사용해 폼의 상태를 관리하면 이를 쉽게 구현할 수 있는데요.
+
+여기서 문제는 객체의 한 속성만 바뀌게 되어도 참조값이 바뀌므로 전체 컴포넌트가 리렌더링 된다는 것입니다. 물론 속성의 수가 적을 때는 문제가 없지만, 속성의 수가 많아지면 리렌더링되는 컴포넌트의 수가 많아져 눈에 띄게 성능이 낮아지게 됩니다.
+
+이번 글에서는 이런 문제를 해결하기 위해 기본적인 폼에서 시작해 useContext, Redux 순으로 최적화해보는 과정을 다루어 보려 합니다.
+
+## 1. 기본적인 폼
+
+<Basic />
+
+객체(Object)를 상태 값으로 사용하는 가장 기본적인 폼을 구현해보았습니다. 폼에 직접 입력을 하시면 리렌더링이 어떻게 일어나는지 확인하실 수 있습니다. 리렌더링이 일어난 컴포넌트는 테두리의 색이 변하며, 횟수가 많아질수록 색이 더욱 진해집니다.
+
+위 폼의 코드는 아래와 같습니다.
+
+```tsx
+import { useState } from "react";
+
+type Info = {
+  name: string;
+  email: string;
+  nickname: string;
+  address: string;
+};
+
+export default function Basic() {
+  const [info, setInfo] = useState<Info>({
+    name: "",
+    email: "",
+    nickname: "",
+    address: "",
+  });
+
+  return (
+    <Div>
+      <h1>Basic</h1>
+      <Input type="text" placeholder="name" value={info.name} onChange={(e) => setInfo({ ...info, name: e.target.value })} />
+      <Input type="text" placeholder="email" value={info.email} onChange={(e) => setInfo({ ...info, email: e.target.value })} />
+      <Input type="text" placeholder="nickname" value={info.nickname} onChange={(e) => setInfo({ ...info, nickname: e.target.value })} />
+      <Input type="text" placeholder="address" value={info.address} onChange={(e) => setInfo({ ...info, address: e.target.value })} />
+    </Div>
+  );
+}
+```
+
+직접 테스트를 해보시면, 한 속성의 값만 바꾸더라도 전체 컴포넌트가 리렌더링 되는 것을 볼 수 있습니다. 왜 이런 일이 일어날까요? 사용자가 입력을 했을 때 일어나는 일을 순서대로 따라가보면 다음과 같습니다.
+
+1. 사용자가 첫 번째 `<Input/>` 컴포넌트, 즉 `name` 칸에 입력을 합니다.
+2. `onChange` 함수에 의해 `setInfo` 함수가 호출됩니다.
+3. `setInfo` 함수가 호출되면 `info` 객체의 값이 업데이트 됩니다. 즉, 참조값이 바뀌게 됩니다.
+4. `Basic` 컴포넌트의 상태가 바뀌었으므로 리렌더링이 일어납니다.
+5. **부모 컴포넌트가 리렌더링 되었으므로 모든 자식 컴포넌트가 리렌더링됩니다.**
+
+그러나 하나의 속성만을 수정했을 뿐인데 전체 컴포넌트가 리렌더링 되는 것은 낭비가 심합니다. 위의 예시에서는 속성이 4개 뿐이지만 속성의 수가 10개, 100개로 많아진다면 리렌더링으로 인해 성능이 현저히 떨어지게 될 것입니다. 변경이 일어난 속성만 리렌더링되도록 바꿀 수는 없을까요?
+
+## 2. Context API 사용
+
+리액트에서 제공하는 [Context API](https://react.dev/reference/react/createContext)를 사용하면 해당 문제를 해결할 수 있습니다.
+
+<WithContextAPI />
+
+이번에는 한 속성을 수정했을 때 부모 컴포넌트와 해당 자식 컴포넌트, 정확히 2개의 컴포넌트만 리렌더링 되는 것을 볼 수 있습니다. 위 폼 컴포넌트는 아래와 같이 구현되었습니다.
+
+```tsx title="WithContextAPI.tsx"
+"use client";
+
+import { InfoProvider } from "./InfoProvider";
+import { PropertyProvider } from "./PropertyProvider";
+import { PropertyInput } from "./PropertyInput";
+
+export default function WithContextAPI() {
+  return (
+    <InfoProvider>
+      <h1>Context API</h1>
+
+      <PropertyProvider property="name">
+        <PropertyInput type="text" property="name" />
+      </PropertyProvider>
+
+      <PropertyProvider property="nickname">
+        <PropertyInput type="text" property="nickname" />
+      </PropertyProvider>
+
+      <PropertyProvider property="email">
+        <PropertyInput type="text" property="email" />
+      </PropertyProvider>
+
+      <PropertyProvider property="address">
+        <PropertyInput type="text" property="address" />
+      </PropertyProvider>
+    </InfoProvider>
+  );
+}
+```
+
+`<InfoProvider/>` 컴포넌트에서는 `info` 객체와 와 `setInfo` 함수를 선언한 뒤 Context API를 사용해 자식 컴포넌트에 전달합니다.
+
+```tsx title="InfoProvider.tsx"
+import { createContext, useContext, useState } from "react";
+
+const InfoContext = createContext<Info | null>(null);
+const setInfoContext = createContext<React.Dispatch<React.SetStateAction<Info>> | null>(null);
+
+export function InfoProvider({ children }: { children: React.ReactNode }) {
+  const [info, setInfo] = useState<Info>({
+    name: "",
+    email: "",
+    nickname: "",
+    address: "",
+  });
+
+  return (
+    <InfoContext.Provider value={info}>
+      <setInfoContext.Provider value={setInfo}>
+        <Div>{children}</Div>
+      </setInfoContext.Provider>
+    </InfoContext.Provider>
+  );
+}
+
+export function useInfoContext() {
+  const context = useContext(InfoContext);
+  if (context === null) {
+    throw new Error("useInfo must be used within an InfoProvider");
+  }
+  return context;
+}
+
+export function useSetInfoContext() {
+  const context = useContext(setInfoContext);
+  if (context === null) {
+    throw new Error("useSetInfo must be used within an InfoProvider");
+  }
+  return context;
+}
+```
+
+`<PropertyProvider/>` 컴포넌트는 부모에게서 Context로 받은 `info` 객체 중 해당하는 속성의 값만 걸러 Context로 자식에게 다시 전달해줍니다.
+
+```tsx title="PropertyProvider.tsx" {9}
+import { createContext, useContext } from "react";
+import { useInfoContext, useSetInfoContext } from "./InfoProvider";
+
+const PropertyContext = createContext<string | null>(null);
+
+export function PropertyProvider({ property, children }: { property: keyof Info; children: React.ReactNode }) {
+  const info = useInfoContext();
+
+  return <PropertyContext.Provider value={info[property]}>{children}</PropertyContext.Provider>;
+}
+
+export function usePropertyContext() {
+  const context = useContext(PropertyContext);
+  const setInfoContext = useSetInfoContext();
+
+  if (context === null) {
+    throw new Error("usePropertyContext must be used within an PropertyProvider");
+  }
+  return [context, setInfoContext] as const;
+}
+```
+
+따라서 각 `<PropertyInput/>` 컴포넌트는 `info` 객체 중 해당하는 속성의 값만 받기 때문에 다른 속성 값의 변경에는 영향을 받지 않게 됩니다.
+
+```tsx title="PropertyInput.tsx"
+import { usePropertyContext } from "./PropertyProvider";
+
+export function PropertyInput({ property, ...props }: { property: keyof Info } & React.InputHTMLAttributes<HTMLInputElement>) {
+  const [value, setValue] = usePropertyContext();
+
+  return <Input placeholder={property} value={value} onChange={(e) => setValue((value) => ({ ...value, [property]: e.target.value }))} {...props} />;
+}
+```
+
+이렇게 Context API를 사용하면 리렌더링 대상을 획기적으로 줄일 수 있습니다. 지금부터는 조금 더 복잡한 문제를 풀어보겠습니다.
+
+## 3-A. 한 속성에 따라 다른 속성이 변경된다면?
+
+이번에는 한 속성에 따라 다른 속성의 값이 바뀌는 경우입니다. 구체적인 요청사항은 다음과 같습니다.
+
+1. 폼의 속성은 `name`, `copyName`, `doubleCopyName` 세 개 이다.
+2. `name`의 값이 바뀌면 `copyName`의 값은 `name`의 값으로 바뀐다.
+3. `copyName`의 값이 바뀌면 `doubleCopyName`의 값은 `copyName`의 값으로 바뀐다.
+
+이러한 폼 컴포넌트는 어떻게 구현할 수 있을까요?
+
+### 시도 1. useEffect 사용
+
+일단 가장 빨리 시도해볼 수 있는 방법은 상태 값을 관리하는 컴포넌트인 `<InfoProvider/>` 컴포넌트에서 `useEffect`를 사용하는 방법입니다.
+
+```tsx title="InfoProvider.tsx" {13-18,20-25}
+import { createContext, useContext, useState, useEffect } from "react";
+
+const InfoContext = createContext<InfoDepend | null>(null);
+const setInfoContext = createContext<React.Dispatch<React.SetStateAction<InfoDepend>> | null>(null);
+
+export function InfoProvider({ children }: { children: React.ReactNode }) {
+  const [info, setInfo] = useState<InfoDepend>({
+    name: "",
+    copyName: "",
+    doubleCopyName: "",
+  });
+
+  useEffect(() => {
+    setInfo((info) => ({
+      ...info,
+      copyName: info.name,
+    }));
+  }, [info.name]);
+
+  useEffect(() => {
+    setInfo((info) => ({
+      ...info,
+      doubleCopyName: info.copyName,
+    }));
+  }, [info.copyName]);
+
+  return (
+    <InfoContext.Provider value={info}>
+      <setInfoContext.Provider value={setInfo}>
+        <Div>{children}</Div>
+      </setInfoContext.Provider>
+    </InfoContext.Provider>
+  );
+}
+```
+
+이 방법의 장점은 로직을 명확하게 할 수 있다는 점입니다. 첫 번째 `useEffect`를 보면 dependency 배열에 `info.name`이 있고, `setInfo` 함수 안에는 `copyName` 속성에 `info.name`을 대입하고 있습니다. 따라서 `name` 속성이 바뀌었을 때 `copyName` 속성이 그 값을 복사한다는 것을 명확하게 알 수 있습니다. 또한 모든 로직이 중앙에 모여있으므로 유지보수가 쉽다는 이점도 있습니다.
+
+<DependWithUseEffect />
+
+그러나 치명적인 단점이 있는데, 바로 리렌더링의 횟수가 많아진다는 점입니다. 예를 들어 `name` 속성이 바뀌면 첫 번째 `useEffect`가 실행되면서 다시 `setInfo` 함수가 호출되고, 이때 두 번째 `useEffect`도 실행되면서 다시 `setInfo` 함수가 호출됩니다. 결국 한 속성만 바꿨을 뿐인데 총 3번의 리렌더링이 일어나게 됩니다.
+
+위의 폼에서 `name` 속성을 바꾸면 부모 컴포넌트가 3번 렌더링되어 테두리의 색이 노란색으로 변하는 것을 볼 수 있습니다.
+
+### 시도 2. setState 함수 내에서 변경
+
+리렌더링을 총 한 번만 일으키기 위해서는 `setState`에 인자로 넘겨주는 콜백 함수 내에서 모든 로직을 수행하고 그 결과를 반환해야 합니다. 예를 들어 `<PropertyInput/>` 컴포넌트를 다음과 같이 수정할 수 있습니다.
+
+```tsx title="PropertyInput.tsx" {11-23}
+import { usePropertyContext } from "./PropertyProvider";
+
+export function PropertyInput({ property, ...props }: { property: keyof InfoDepend } & React.InputHTMLAttributes<HTMLInputElement>) {
+  const [value, setValue] = usePropertyContext();
+
+  return (
+    <MyInput
+      placeholder={property}
+      value={value}
+      onChange={(e) =>
+        setValue((value) => {
+          const newValue = { ...value, [property]: e.target.value };
+
+          if (value.name !== newValue.name) {
+            newValue.copyName = newValue.name;
+          }
+
+          if (value.copyName !== newValue.copyName) {
+            newValue.doubleCopyName = newValue.copyName;
+          }
+
+          return newValue;
+        })
+      }
+      {...props}
+    />
+  );
+}
+```
+
+그러면 실제로 아래와 같이 부모 컴포넌트의 렌더링이 한 번만 일어나는 것을 볼 수 있습니다.
+
+<DependWithSetState />
+
+모든 로직이 모여 있어 유지보수하기 쉽다는 장점은 여전하지만, 이 방법도 찜찜함이 남습니다. 컴포넌트의 재활용을 위해 `setValue`에 인자로 넘겨주는 콜백 함수를 분리하고 싶습니다. 이를테면 아래와 같이 `getNewInfoDependValue` 함수를 만들어 사용하는 것입니다.
+
+```tsx
+const getNewInfoDependValue = (value: InfoDepend, property: keyof InfoDepend) => {
+  const newValue = { ...value, [property]: e.target.value };
+
+  if (value.name !== newValue.name) {
+    newValue.copyName = newValue.name;
+  }
+
+  if (value.copyName !== newValue.copyName) {
+    newValue.doubleCopyName = newValue.copyName;
+  }
+
+  return newValue;
+};
+```
+
+그리고 이 함수를 사용하기 위해서는 부모 컴포넌트에서 Props를 통해 넘겨주어야 합니다.
+
+```tsx title="InfoProvider.tsx" {12,17,22}
+import { InfoProvider } from "./InfoProvider";
+import { PropertyProvider } from "./PropertyProvider";
+import { PropertyInput } from "./PropertyInput";
+
+export default function UseContext() {
+  return (
+    <InfoProvider>
+      <h1 className="text-2xl font-bold">Depend (useEffect)</h1>
+
+      <PropertyProvider property="name">
+        <PropertyInput type="text" property="name" .
+         setValueCallback={getNewInfoDependValue} />
+      </PropertyProvider>
+
+      <PropertyProvider property="copyName">
+        <PropertyInput type="text" property="copyName" .
+         setValueCallback={getNewInfoDependValue} />
+      </PropertyProvider>
+
+      <PropertyProvider property="copyCopyName">
+        <PropertyInput type="text" property="copyCopyName" .
+         setValueCallback={getNewInfoDependValue} />
+      </PropertyProvider>
+    </InfoProvider>
+  );
+}
+```
+
+그러나 이런 코드는 작성하기도 힘들고, 유지보수 또한 어렵습니다. 위 함수를 포함한 모든 로직을 `<InfoProvider/>` 컴포넌트에서 관리하고 싶습니다. 물론 Context API를 사용해 `getNewInfoDependValue` 함수를 넘겨주는 것도 가능하지만, 상태 값도 아닌데 Context API를 사용하는 것은 비효율적입니다.
+
+### 해결 방법. useReducer 사용
+
+이 문제는 [useReducer](https://react.dev/reference/react/useReducer) 훅을 사용해 해결할 수 있습니다. 이 훅의 인수로는 크게 reducer 함수와 초기 상태 값 2가지가 있습니다. reducer 함수는 상태 값을 업데이트 하는 함수로, 위에서 정의한 `getNewInfoDependValue` 함수와 정확히 같은 역할을 합니다.
+
+useReducer 훅을 사용해 코드를 수정해보겠습니다. 일단 위에서 만든 함수를 `infoReducer`라는 이름으로 정의합니다.
+
+```tsx title="infoReducer.ts"
+type Action = {
+  property: keyof InfoDepend;
+  payload: string;
+};
+
+export function infoReducer(state: InfoDepend, action: Action) {
+  const newState = { ...state, [action.property]: action.payload };
+
+  if (state.name !== newState.name) {
+    newState.copyName = newState.name;
+  }
+
+  if (state.copyName !== newState.copyName) {
+    newState.doubleCopyName = newState.copyName;
+  }
+
+  return newState;
+}
+```
+
+`<InfoProvider/>` 컴포넌트에서 위 함수와 함께 `useReducer` 훅을 사용하고,
+
+```tsx title="InfoProvider.tsx" {5, 8-12, 16, 18, 31-37}
+import { createContext, useContext, useReducer } from "react";
+import { infoReducer } from "./infoReducer";
+
+const InfoContext = createContext<InfoDepend | null>(null);
+const DispatchInfoContext = createContext<React.Dispatch<Action> | null>(null);
+
+export function InfoProvider({ children }: { children: React.ReactNode }) {
+  const [info, dispatchInfo] = useReducer(infoReducer, {
+    name: "",
+    copyName: "",
+    doubleCopyName: "",
+  });
+
+  return (
+    <InfoContext.Provider value={info}>
+      <DispatchInfoContext.Provider value={dispatchInfo}>{children}</DispatchInfoContext.Provider>
+    </InfoContext.Provider>
+  );
+}
+
+export function useInfoContext() {
+  const context = useContext(InfoContext);
+  if (context === null) {
+    throw new Error("useInfo must be used within an InfoProvider");
+  }
+  return context;
+}
+
+export function useDispatchInfoContext() {
+  const context = useContext(DispatchInfoContext);
+  if (context === null) {
+    throw new Error("useDispatchInfo must be used within an InfoProvider");
+  }
+  return context;
+}
+```
+
+마지막으로 `<PropertyInput/>` 컴포넌트에서 `dispatchValue` 함수를 사용해 상태 값을 업데이트 하면 됩니다.
+
+```tsx title="PropertyInput.tsx" {6}
+import { usePropertyContext } from "./PropertyProvider";
+
+export function PropertyInput({ property, ...props }: { property: keyof InfoDepend } & React.InputHTMLAttributes<HTMLInputElement>) {
+  const [value, dispatchValue] = usePropertyContext();
+
+  return <Input placeholder={property} value={value} onChange={(e) => dispatchValue({ property, payload: e.target.value })} {...props} />;
+}
+```
+
+그러면 아래와 같이 성능적으로도 최적화 되어있고, 유지보수도 쉬운 코드를 얻을 수 있습니다. 만약 서로 다른 타입의 폼을 만들더라도 리듀서 함수를 `InfoProvider` 컴포넌트에만 넘겨주면 되므로 재활용성도 높아졌습니다.
+
+<DependWithUseReducer />
+
+## 3-B. 부모 컴포넌트의 리렌더링도 막고 싶다면? (feat. Redux)
+
+다시 2번으로 돌아가서, 이제는 부모 컴포넌트의 리렌더링도 막고 싶어졌다고 가정해봅시다. 즉, 어떤 속성이 바뀌면 해당 자식 컴포넌트 하나만 리렌더링 되도록 하고 싶습니다.
+
+잘 생각해보면, 더 이상 폼의 상태 값을 부모 컴포넌트에 담아둘 수 없습니다. 만약 부모 컴포넌트에 담아둔다면 어떤 속성 값이 바뀌더라도 부모 컴포넌트의 상태 값이 바뀌므로 리렌더링을 피할 수 없기 때문입니다. 따라서 컴포넌트 외부에 상태 값을 저장해놓고 각 컴포넌트에서 구독해서 사용하는 식으로 이 문제를 해결해야 합니다.
+
+이는 상태관리 라이브러리를 사용하면 쉽게 구현할 수 있습니다. 저는 [Redux Toolkit](https://redux-toolkit.js.org/)을 사용해보겠습니다.
+
+우선 `createSlice` 함수를 사용해 슬라이스를 만듭니다.
+
+```tsx title="redux.ts"
+import { createSlice, PayloadAction } from "@reduxjs/toolkit";
+
+const infoSlice = createSlice({
+  name: "info",
+  initialState: {
+    name: "",
+    email: "",
+    nickname: "",
+    address: "",
+  },
+  reducers: {
+    setInfo: (state, action: PayloadAction<{ property: keyof InfoDepend; value: string }>) => {
+      const { property, value } = action.payload;
+      state[property] = value;
+    },
+  },
+});
+
+export const { setInfo } = infoSlice.actions;
+export default infoSlice.reducer;
+```
+
+다음으로 해당 슬라이스를 store에 등록합니다.
+
+```tsx title="store.ts"
+import { configureStore } from "@reduxjs/toolkit";
+import infoReducer from "./redux";
+
+export const store = configureStore({
+  reducer: {
+    info: infoReducer,
+  },
+});
+
+export type RootState = ReturnType<typeof store.getState>;
+export type AppDispatch = typeof store.dispatch;
+```
+
+`<StoreProvider/>` 컴포넌트를 만들어 store를 전역적으로 사용할 수 있도록 합니다.
+
+```tsx title="StoreProvider.tsx"
+import { Provider } from "react-redux";
+import { store } from "./store";
+
+export default function StoreProvider({ children }: { children: React.ReactNode }) {
+  return <Provider store={store}>{children}</Provider>;
+}
+```
+
+`<PropertyInput/>` 컴포넌트에서는 `useSelector` 훅을 사용해 상태 값을 구독하고, `useDispatch` 훅을 사용해 상태 값을 업데이트 합니다.
+
+```tsx title="PropertyInput.tsx"
+import { useDispatch, useSelector } from "react-redux";
+import { setInfo } from "./redux";
+import { RootState } from "./store";
+
+export function PropertyInput({ property, ...props }: { property: keyof Info } & React.InputHTMLAttributes<HTMLInputElement>) {
+  const value = useSelector((state: RootState) => state.info[property]);
+  const dispatch = useDispatch();
+
+  return <Input placeholder={property} value={value} onChange={(e) => dispatch(setInfo({ property, value: e.target.value }))} {...props} />;
+}
+```
+
+이제 위 컴포넌트들을 조합하여 `<WithRedux/>` 컴포넌트를 만들면 됩니다.
+
+```tsx title="WithRedux.tsx"
+"use client";
+
+import { PropertyInput } from "./PropertyInput";
+import StoreProvider from "./StoreProvider";
+
+export default function WithRedux() {
+  return (
+    <StoreProvider>
+      <h1>Redux</h1>
+      <PropertyInput type="text" property="name" />
+      <PropertyInput type="text" property="nickname" />
+      <PropertyInput type="text" property="email" />
+      <PropertyInput type="text" property="address" />
+    </StoreProvider>
+  );
+}
+```
+
+<WithRedux />
+
+이제 부모 컴포넌트도 렌더링 되지 않고, 수정이 일어난 자식 컴포넌트 하나만 리렌더링 됩니다!
+
+## 4. 마지막으로 둘을 합쳐보자
+
+**3-A**에서 고민했던 "두 속성 사이에 의존성이 있는 경우의 최적화 방법"과 **3-B**에서 고민했던 "부모 컴포넌트의 리렌더링도 막는 방법"을 동시에 적용하여 가장 성능이 좋은 컴포넌트를 만들어 보겠습니다. 그저 `redux.ts` 파일에서 reducer를 정의할 때 `infoReducer` 함수를 사용하는 것 말고는 바뀐 코드가 없습니다.
+
+```tsx title="redux.ts" {15} "\n"#hidden
+import { createSlice, PayloadAction } from "@reduxjs/toolkit";
+import { infoReducer } from "./infoReducer";
+
+const infoSlice = createSlice({
+  name: "infodepend",
+  initialState: {
+    name: "",
+    copyName: "",
+    doubleCopyName: "",
+  },
+  reducers: {
+    setInfo:
+      (state, \n
+       action: PayloadAction<{ property: keyof InfoDepend; value: string }>)
+      => infoReducer(state, action.payload),
+  },
+});
+
+export const { setInfo } = infoSlice.actions;
+export default infoSlice.reducer;
+```
+
+<WithReduxAndReducer />
+
+이렇게 구현된 컴포넌트는 부모 컴포넌트의 리렌더링도 일어나지 않고, 두 속성 사이의 의존성이 있는 경우에도 한 번만 리렌더링 됩니다.
+
+> 해당 포스트의 코드들은 가독성을 높이기 위해 일부 코드가 수정되거나 생략되어 있습니다. 따라서 그대로 복사하여 사용할 경우 오류가 발생할 수 있습니다. 원본 코드는 [여기]()에서 확인하실 수 있습니다.
+
+## 참고자료
+
+- https://www.pumpkiinbell.com/blog/react/performant-form

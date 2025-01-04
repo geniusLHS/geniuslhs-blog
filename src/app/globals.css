@@ -249,6 +249,9 @@ a:hover {
 
 /* code block */
 
+.prose figure[data-rehype-pretty-code-figure] {
+  margin: 1.5rem 0px;
+}
 /* pretty-code (shiki) recommend */
 
 .prose pre {
@@ -257,16 +260,16 @@ a:hover {
 
 .prose pre > code {
   display: grid;
-  font-size: 13px;
+  font-size: 14px;
 }
 
 /* Fenced Code block - hide horizontal scrollbar: webkit */
 .prose pre::-webkit-scrollbar {
-  display: none;
+  /* display: none; */
 }
 /* Fenced Code block - hide horizontal scrollbar: mozila */
 .prose pre {
-  scrollbar-width: none;
+  /* scrollbar-width: none; */
 }
 
 /* Fenced Code block - line style */
@@ -302,6 +305,23 @@ a:hover {
   @apply border-l-2 border-y-0 border-transparent bg-opacity-10 
       border-blue-400 bg-indigo-400
         pl-[calc(0.5rem-2px)] md:pl-[calc(1rem-2px)];
+}
+
+/* Fenced Code block - word highlight */
+.prose mark[data-highlighted-chars] {
+  @apply bg-teal-400 bg-opacity-25;
+}
+.prose mark[data-highlighted-chars][data-chars-id="y"] {
+  @apply bg-yellow-400 bg-opacity-25;
+}
+.prose mark[data-highlighted-chars][data-chars-id="b"] {
+  @apply bg-sky-400 bg-opacity-25;
+}
+.prose mark[data-highlighted-chars][data-chars-id="hidden"] {
+  @apply bg-transparent;
+}
+.prose mark[data-highlighted-chars][data-chars-id="hidden"] > span {
+  @apply !text-transparent;
 }
 
 /* {n}#minus, {n}#plus */
