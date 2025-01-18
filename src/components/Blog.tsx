@@ -52,10 +52,7 @@ export const Blog = ({ posts, tags }: Props) => {
             <div className="w-20 md:w-32 p-2">{dayjs(posts[0].date).format("YYYY")}</div>
             <div className="flex flex-col w-full group">
               {posts.map((post, index) => (
-                <Link
-                  href={"blog/" + post.slug}
-                  className="pl-2 no-underline flex flex-row justify-between w-full rounded-lg transition-all py-2 group-hover:opacity-40 hover:!opacity-100 group/post"
-                >
+                <Link href={"blog/" + post.slug} className="pl-2 no-underline flex flex-row justify-between w-full rounded-lg transition-all py-2 group/post">
                   <div className="text-base group-hover/post:underline group-hover/post:underline-offset-2 group-hover/post:cursor-pointer group-hover/post:black transition-colors duration-75">
                     {post.title}
                   </div>
