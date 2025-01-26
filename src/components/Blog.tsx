@@ -58,7 +58,7 @@ export const Blog = ({ posts, tags }: Props) => {
                   </div>
                   <div className="flex flex-col md:flex-row ml-2">
                     <div className="text-sm w-11 mt-1 text-[#888] ">{dayjs(post.date).format("MM. DD.")}</div>
-                    <PostViews className="w-11 md:ml-4 mt-1 text-sm" slug={post.slug} isVisit={false}></PostViews>
+                    <PostViews className="w-14 md:ml-4 mt-1 text-sm" slug={post.slug} isVisit={false}></PostViews>
                   </div>
                 </Link>
               ))}
