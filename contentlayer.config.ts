@@ -24,6 +24,7 @@ export const Post = defineDocumentType(() => ({
     },
     description: { type: "string", required: true },
     thumbnailUrl: { type: "string" },
+    ogimage: { type: "string" },
   },
   computedFields: {
     // url: { type: 'string', resolve: (post) => `/posts/${post._raw.flattenedPath}` },

@@ -37,7 +37,7 @@ export async function generateMetadata({ params }: Props, parent: ResolvingMetad
     openGraph: {
       title: currentPost?.title ?? "geniusLHS",
       description: currentPost?.description ?? "이현서 개발 블로그",
-      images: ["https://github.com/geniusLHS/geniuslhs-blog/blob/main/public/image/geniuslhs-og.png?raw=true"],
+      images: [currentPost?.ogimage ?? "https://github.com/geniusLHS/geniuslhs-blog/blob/main/public/image/geniuslhs-og.png?raw=true"],
       url: "https://geniuslhs.com/blog/" + currentPost?.slug,
       type: "website",
       siteName: "geniusLHS",
